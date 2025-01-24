@@ -145,13 +145,13 @@
 							<div class="card-heading card-heading-transparent">
 								<label for="building-type" class="card-title"> 
 									<h3>
-										<span style="color:rgb(10, 101, 160); font-weight:bolder">STEP 1 |</span> Select Type of Building
+										<span id="headertag1" style="color:rgb(10, 101, 160); font-weight:bolder">STEP 1 |</span> Select Type of Building
 									</h3> 
 								</label>
 							</div>
 							<div class="card-block" style="margin: 20px">
-								<select name="building-type" id="building-type" class="form-control pointer required">
-									<option>---Select---</option>
+								<select name="building-type" id="building-type" value="select" class="form-control pointer required">
+									<option id="select" value="select">---Select---</option>
 									<option id="residential" value="residential">Residential</option>
 									<option id="commercial" value="commercial">Commercial</option>
 									<option id="industrial" value="industrial">Industrial</option>
@@ -163,7 +163,7 @@
 							
 							<div class="card-heading step-description">
 								<h3>
-									<span style="color:rgb(10, 101, 160); font-weight:bolder">STEP 2 |</span> Provide Building Information
+									<span id="headertag2" style="color:rgb(10, 101, 160); font-weight:bolder">STEP 2 |</span> Provide Building Information
 								</h3>
 							</div>
 
@@ -226,7 +226,7 @@
 
 						<div class="product-line card card-default" style="display: none;">
 							<div class="card-heading card-heading-transparent">
-								<h3><span class="roboto-slab" style="color:rgb(10, 101, 160); font-weight:bolder">STEP 3 |</span> Select Product Line</h3>
+								<h3><span id="headertag3" class="roboto-slab" style="color:rgb(10, 101, 160); font-weight:bolder">STEP 3 |</span> Select Product Line</h3>
 								<p class="pt-serif-regular" style="margin-bottom: 0px;">* Excluding tax and offers (if applicable)</p>
 								<p class="pt-serif-regular" style="color: rgb(170, 69, 69); display: none; margin-bottom: 0px;" id="warning">Complete Step 2 to Estimate Price</p> 
 							</div>
@@ -259,7 +259,7 @@
 
 						<div class="final-pricing-display card card-default" style="display: none;">
 							<div class="card-heading card-heading-transparent">
-								<h3><span style="color:rgb(10, 101, 160); font-weight:bolder">STEP 4 |</span> Estimated Pricing</h3>
+								<h3><span id="headertag4" style="color:rgb(10, 101, 160); font-weight:bolder">STEP 4 |</span> Estimated Pricing</h3>
 								<p class="pt-serif-regular" style="margin-bottom: 0px;">* Excluding tax and offers (if applicable)</p>
 								<p class="pt-serif-regular" style="color: rgb(170, 69, 69); display: none; margin-bottom: 0px;" id="warning">Complete Step 2 to Estimate Price</p> 
 							</div>

@@ -457,7 +457,39 @@
 			</section>
 			<!-- /TESTIMONIAL -->
 
+<!-- TABLE SECTION FOR AGENTS -->
+<section>
+	<table>
+			<th>First Name
+				<button id="SortableFirstName">
+					Click Me
+				</button>
+			</th>
+			<th>Last Name
+				<button id="SortableLastName">
+				Click Me
+				</button>
+			</th>
+			<th>Rating</th>
+			<th>Fee</th>
+			<th>Region
+				<Select value="select" id="RegionFilter">
+					<option id="select" value="select">---Choose a Region---</option>
+					<option value="north"> North </option>
+					<option value="east"> East</option>
+					<option value="west"> West</option>
+					<option value="south"> South</option>
+					</Select>
+				</div>
+			</th>
+			<tbody id="AgentTableBody"> 
 
+			</tbody>
+
+	</table>
+</section>
+
+<!-- TABLE SECTION FOR AGENTS -->
 			<!-- MODAL -->
 			<div class="modal fade" id="subscribe-message" role="dialog">
 				<div class="modal-dialog">				
@@ -551,6 +583,9 @@
 
 		<!-- SCRIPT -->
 		<script src="assets/js/scripts.js"></script>
+
+		<!-- //RESIDENTIAL JAVASCRIPT LINK -->
+		<script src="residential.js"></script>
 
 		<!-- OPEN MODALS SCRIPT -->
 		<script type="text/javascript">

@@ -221,3 +221,51 @@ buildingType_select.addEventListener("change", function () {
         });
     }
 });
+
+//BUTTON IDENTIFIERS TO ADD FUNCTIONALITY FOR EVENT LISTENERS
+    const BuildingSelection= document.getElementById("building-type")
+    const Step1HeaderTag= document.getElementById("headertag1")
+    const Step2HeaderTag= document.getElementById("headertag2")
+    const Step3HeaderTag= document.getElementById("headertag3")
+    const Step4HeaderTag= document.getElementById("headertag4")
+
+    //selection is labeled with change instead of a click because it's not a button, it's a drop-down menu...
+    //within the selection are option tags...
+    //we need to check building.value
+
+    BuildingSelection.addEventListener("change", () => {
+
+        console.log("EVENT LISTENER CALLED")
+
+        if(BuildingSelection.value == "residential") {
+            console.log(BuildingSelection.value)
+            Step1HeaderTag.style.backgroundColor = "blue"
+            Step2HeaderTag.style.backgroundColor = "blue"
+            Step3HeaderTag.style.backgroundColor = "blue"
+            Step4HeaderTag.style.backgroundColor = "blue"
+            return
+        }
+        if(BuildingSelection.value == "commercial") {
+            console.log(BuildingSelection.value)
+            Step1HeaderTag.style.backgroundColor = "red"
+            Step2HeaderTag.style.backgroundColor = "red"
+            Step3HeaderTag.style.backgroundColor = "red"
+            Step4HeaderTag.style.backgroundColor = "red"
+            return
+        }
+        if(BuildingSelection.value == "industrial") {
+            console.log(BuildingSelection.value)
+            Step1HeaderTag.style.backgroundColor = "gray"
+            Step2HeaderTag.style.backgroundColor = "gray"
+            Step3HeaderTag.style.backgroundColor = "gray"
+            Step4HeaderTag.style.backgroundColor = "gray"
+            return
+        }
+        //MAKE EVENT LOISTENER CHECING THESE THINGS ON LINE 236
+        //CHECK VALUE OF DROP DOWN, SELECT TAG TAKE A SERIES OF OPTIONS AND WHATEVER OPTION IS PICKED BECOME STHE VALUE, NPW TEHE VALUE IS RESIDETNIAL, COMMERCIAL, ORINDUSTRIAL, THEN YOU CHANGED COLOR OF THINGS BASED ON SLEECTION .STYLE DISPLAY BACKGROIND COLOR = RED, ETC.
+        const RequiredFieldValidator
+    
+    
+    })
+
+
