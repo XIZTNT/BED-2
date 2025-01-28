@@ -11,13 +11,13 @@ const AgentData = async () => {
     CreateTableBody (data)
     return data
   }
-  AgentData () 
+  AgentData() 
 //  LINE 12  MEANS TO CALL THE FUNCTION
 
 
 // NEW FUNCTION TO CREATE TABLE BODY
 // Data within parenthesis is a placeholder until called function receives actual data
-function CreateTableBody (data) {
+function CreateTableBody(data) {
 
 //Create Table Rows with Agent Data
 
@@ -55,6 +55,7 @@ AgentBody.innerHTML+=something2
 //buttons migration 
 const FirstNameSort = document.getElementById("SortableFirstName")
 const LastNameSort = document.getElementById("SortableLastName")
+const SortableRatings = document.getElementById("SortableRatings")
 const RegionFilter = document.getElementById("RegionFilter")
 
 //buttons event listeners
@@ -86,6 +87,21 @@ return 0
 CreateTableBody (SortedNames)
 })
 
+//RATINGS SORT!
+SortableRatings.addEventListener("click", async () => {
+  const Ratings = await AgentData () 
+ //mini function inside of the bigger function
+ const  SortedRatings = Ratings.sort((first_name,rating)=>first_name.rating - {
+  const FirstNameA = first_name
+  const RatingB = rating
+  if (FirstNameA > RatingB)
+    return 1;
+  if (FirstNameA < RatingB)
+    return -1;
+  return 0
+ })
+CreateTableBody(SortedRatings)
+})
 
 //REGION FILTERING....add html and then bring event listenere
 RegionFilter.addEventListener("change", async () => {
@@ -96,7 +112,7 @@ RegionFilter.addEventListener("change", async () => {
  const FilteredRegions = Regions.filter((Agent)=>
 Agent.region === RegionFilter.value
  )
-CreateTableBody (FilteredRegions)
+CreateTableBody(FilteredRegions)
  })
 
 
