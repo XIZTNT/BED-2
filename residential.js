@@ -8,6 +8,8 @@ const AgentData = async () => {
     // conversion to JSON is to return usable data (precautionary)
     console.log(data) 
     //Taking information formed in "data"
+    // Passing filtered data for "Ratings" Section
+
     CreateTableBody (data)
     return data
   }
@@ -80,6 +82,7 @@ LastNameSort.addEventListener("click", async () => {
  const LastNames = await AgentData ()
 //mini function inside of the bigger function
 const SortedNames = LastNames.sort((a, b)=>{
+  // working through last name property
 if (a.last_name < b.last_name) return -1;
 if (a.last_name > b.last_name) return 1;
 return 0 
@@ -91,12 +94,11 @@ CreateTableBody (SortedNames)
 SortableRatings.addEventListener("click", async () => {
   const Ratings = await AgentData () 
  //mini function inside of the bigger function
- const  SortedRatings = Ratings.sort((first_name,rating)=>first_name.rating - {
-  const FirstNameA = first_name
-  const RatingB = rating
-  if (FirstNameA > RatingB)
+ const  SortedRatings = Ratings.filter((a,b)=>{
+ //passing rather than counting
+  if (a.rating >= 95)
     return 1;
-  if (FirstNameA < RatingB)
+  if (b.rating < 95)
     return -1;
   return 0
  })
