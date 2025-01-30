@@ -96,6 +96,7 @@ SortableRatings.addEventListener("click", async () => {
  //mini function inside of the bigger function
  const  SortedRatings = Ratings.filter((a,b)=>{
  //passing rather than counting
+ //do not put brackets "[]" these represent arrays
   if (a.rating >= 95)
     return 1;
   if (b.rating < 95)
@@ -126,7 +127,6 @@ CreateTableBody(FilteredRegions)
 // and allows code to be inserted within HTML body
 //write html code within a foreeach loop attached to agent data
 
-  
    
 
 
