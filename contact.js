@@ -1,22 +1,19 @@
 //post example
 
-const data = { username: 'example' };
-fetch('http://127.0.0.1:5500/index.html#contact', {
-  method: 'POST',
-  headers: {
-    
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify(data),
-})
-  .then((response) => response.json())
-  .then((data) => {
-    console.log('Success:', data);
+//get element by ids for object key value pairs
+const FullName = document.getElementById("name")
+const Email = document.getElementById("email")
+const Phone = document.getElementById("phone")
+const CompanyName = document.getElementById("company_name")
+const ProjectName = document.getElementById("project_name")
+const ProjectDescription = document.getElementById("project_description")
+const Department = document.getElementById("department")
+const Message = document.getElementById("message")
 
-  })
-  .catch((error) => {
-    console.error('Error:', error);
-  });
+
+//OBJECT KEY VALUE PAIRS now within event listener
+ 
+//fetch is the last thing that happens
 
   // CONTACT FORM VARIABLES AND FIELDS WITH ID'S
 
@@ -24,10 +21,21 @@ fetch('http://127.0.0.1:5500/index.html#contact', {
 const POSTREQFunct = document.getElementById("fullsend")
 
 
-POSTREQFuncts.addEventListener("click", async () => {
+POSTREQFunct.addEventListener("click", async () => {
 
-  const data = { username: 'example' };
-fetch('http://127.0.0.1:5500/index.html#contact', {
+  const data = {   
+    fullname:FullName.value, 
+    email:Email.value, 
+    phone:Phone.value, 
+    company_name:CompanyName.value, 
+    project_name:ProjectName.value, 
+    project_desc:ProjectDescription.value, 
+    department:Department.value,
+    message:Message.value,
+    file:null, };
+console.log (data) 
+
+fetch('http://99.79.77.144:3000/api/contact', {
   method: 'POST',
   headers: {
     
@@ -44,16 +52,17 @@ fetch('http://127.0.0.1:5500/index.html#contact', {
     console.error('Error:', error);
   });
 
-  const Something = await data () 
-  const ArrayData = ["Full Name", "Email Address", "Phone", "Company Name", "Project Name", "Project Description", "Department"];
-    //map through data
-    const MapThru = ArrayData.map
+  // const ArrayData = await data () 
+  // const ContactFieldsArray.map => }
+  //   //map through data
+  //   //even listener uptop
+  //   const MapThru = ContactFieldsArray.map() => {
 
-    Mapthru() => {
+  //   MapThru() 
 
-    }
-    CreateTableBody(Something)
-  });
+  //   }
+  //   CreateTableBody(Something)
+  // });
 
   
 

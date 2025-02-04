@@ -3,15 +3,24 @@
 const AgentBody = document.getElementById("AgentTableBody")
 
 const AgentData = async () => {
-    const response = await fetch("http://99.79.77.144:3000/api/agents")
+  //INFO REQ
+    const response = await fetch("http://99.79.77.144:3000/api/agents") 
     const data = await response.json()
     // conversion to JSON is to return usable data (precautionary)
     console.log(data) 
     //Taking information formed in "data"
     // Passing filtered data for "Ratings" Section
-
-    CreateTableBody (data)
-    return data
+    const  SortedRatings = data.filter((a,b)=>{
+      //passing rather than counting
+      //do not put brackets "[]" these represent arrays
+       if (a.rating >= 95)
+         return 1;
+       if (b.rating < 95)
+         return -1;
+       return 0
+      })
+    CreateTableBody (SortedRatings)
+    return SortedRatings
   }
   AgentData() 
 //  LINE 12  MEANS TO CALL THE FUNCTION
@@ -91,20 +100,11 @@ CreateTableBody (SortedNames)
 })
 
 //RATINGS SORT!
-SortableRatings.addEventListener("click", async () => {
-  const Ratings = await AgentData () 
- //mini function inside of the bigger function
- const  SortedRatings = Ratings.filter((a,b)=>{
- //passing rather than counting
- //do not put brackets "[]" these represent arrays
-  if (a.rating >= 95)
-    return 1;
-  if (b.rating < 95)
-    return -1;
-  return 0
- })
-CreateTableBody(SortedRatings)
-})
+// SortableRatings.addEventListener("click", async () => {
+//   const Ratings = await AgentData () 
+//  //mini function inside of the bigger function
+// CreateTableBody(SortedRatings)
+// })
 
 //REGION FILTERING....add html and then bring event listenere
 RegionFilter.addEventListener("change", async () => {
@@ -112,7 +112,13 @@ RegionFilter.addEventListener("change", async () => {
   //we got the data here now we need to compare it to the selection menu
  //mini function inside of the bigger function
  //what what is agent again????
- const FilteredRegions = Regions.filter((Agent)=>
+ if (RegionFilter.value === "select") {
+ CreateTableBody(Regions)
+ //return means stop here
+ return
+ }
+ 
+const FilteredRegions = Regions.filter((Agent)=>
 Agent.region === RegionFilter.value
  )
 CreateTableBody(FilteredRegions)
