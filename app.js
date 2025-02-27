@@ -1,3 +1,5 @@
+//How to access agents.js within app.js? (line 1)
+const datafile = require("./agents.js")
 const dotenv = require('dotenv')
 dotenv.config()
 const express = require('express')
@@ -50,15 +52,42 @@ res.status(StatusCode).send(`Sorry agent not found ${StatusCode}`)
 
 //Email List Route
 
-const maillist = (req,res) => {
-console.log(`server running on port ${port}`)
-res.send()
-//agents.json included in FSD folder
-}
-//for email list^
-//Look up .map and also .join (two methods to get the email list and deliniate, an email list separated by commas)
-//How to access agents.js within app.js?
+//Replacer
 
+// const replacer (jsagents)
+const emaillist = (req,res) => {
+let EmailOBJ = JSON.stringify(jsagents,["email"]);
+let FinalOBJEmail = jsagents.map
+//GET, I need a get request since I'm getting email
+//adding commas, basically taking information out of the json file utilizing the commas
+// let FinalOBJEmail = EmailOBJ.map(agent => agent.email);
+// res.status(statuscode) ex. 200, 404, etc.
+// look up different status codes
+// ref: Create, update, delete, read (logic)
+//creating a proper try-catch for this API
+console.log(EmailOBJ)
+}
+
+const getEmailList = (req,res) => {
+let email = datafile.jsagents.map(list => list.email).join(",")
+
+res.send(email);
+
+}
+
+
+//Comments
+//jsagent.map needs to map something specific
+//you have to tell .join what to join
+//Look up .map and also .join (two methods to get the email list and deliniate, an email list separated by commas)
+//You should use the "jsagents" for this section
+
+
+
+//agents.json included in FSD folder
+
+//for email list^ (the list is structured as an Array of Objects)
+//Look up .map and also .join (two methods to get the email list and deliniate, an email list separated by commas)
 
 //Route Calling Function
 
@@ -66,6 +95,6 @@ const RouteCaller = (app) => {
 app.get("/hello",hello)
 app.get("/status",status)
 app.get("/error",error)
-app.get("/maillist",maillist)
+app.get("/email-list",getEmailList)
 }
 RouteCaller(app)
