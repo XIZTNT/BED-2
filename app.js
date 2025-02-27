@@ -72,7 +72,7 @@ const getEmailList = (req,res) => {
 let email = datafile.jsagents.map(list => list.email).join(",")
 gi
 res.send(email);
-hskjdaskjdsakldskldja
+hskjdaskjdsakldskldjajdaksjldkasjda
 }
 
 
