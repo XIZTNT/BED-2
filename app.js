@@ -7,6 +7,10 @@ const app = express()
 app.use(express.json())
 const port = process.env.PORT || 5050
 const env = process.env.ENV || ""
+
+//Mongo Manager Open Connection
+const MongoManager = require('./mongo-manager')
+MongoManager.openMongoConnection();
 app.listen(port, () => {
   //app.get(do more research to setup api endpoint and call function)
   console.log(` server listening on port ${port} `)
