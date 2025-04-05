@@ -6,10 +6,13 @@
 //look at syntax
 //agent.create 
 
-import mongoose from 'mongoose';
 
-const AgentSchema = new mongoose.Schema(
-{
+// ES Module Syntax
+// import mongoose from 'mongoose';
+
+// Common JS
+const mongoose = require('mongoose');
+const AgentSchema = new mongoose.Schema({
 first_name: {
     type:String,
     trim:true,
@@ -18,12 +21,12 @@ first_name: {
 last_name: { 
     type:String,
     trim:true,
-    required,true
+    required:true
 },
 email: {
     type:String,
     trim:true,
-    required,true
+    required:true
 },
 region: { 
 type:String,
@@ -46,10 +49,14 @@ sales: {
     required:false,
 }
 
-}
-)
+});
 
 
 //module exports to be used in other files
+const Agent = mongoose.model("Agent",AgentSchema);
+//New export [Common JS Format] default for Agent Model
+module.exports = Agent;
 
-export default mongoose.model("Agent",AgentSchema)
+
+//OLD LINE (ES Modules) used for expport into app.js
+//export default mongoose.model("Agent",AgentSchema)
