@@ -2,6 +2,9 @@
 const Agent = require("./agent.schema.js")
 const datafile = require("./agents.js")
 const dotenv = require('dotenv')
+//FS functionality
+const fs = require('fs');
+const path = require('path');
 dotenv.config()
 //Express Middlware
 const express = require('express');
@@ -118,6 +121,89 @@ const agentcreate = async (req, res) => {
   }
 };
 
+//Return all agents by last name alphabetically ENDPOINT
+//Will want to stick with sort function in order to compare values that come before or after
+//read datafile as a datafile (use or lookup "fs" read file)
+fs.readFile("agents.js","utf8", (err,content) => {
+  console.log(content);
+});
+//checjk if im geting through emit
+const agents = async (req, res) => {
+try {
+  //datafile alone wasn't enough to make app.js run this function, I needed the ".Jsagents" portion
+const lastnames = datafile.jsagents
+.sort((a, b) => a.last_name.localeCompare(b.last_name))
+.map(agent => agent.last_name);
+
+res.status(201).json({ message: "Sorted lastnames completed", data: lastnames });
+
+} catch (error) {
+  console.error("Error organizing last names:",error.message);
+  res.status(404).json({ message:"Failed to organize last names sort", error: error.message });
+}
+};
+
+
+//Agents by Region Route
+
+const agentsbyregion = (req,res) => {
+try {
+//I NEED A VALUE PAIR, I NEED REGION:REGION, AGENTRATING:COLON
+//LEFT HAND SIDE IS SHOWN CAN BE CALLED ANYTHING YOU WANT
+//CONSTANTS CAN BE CAPITALIZED, SHOWING EITHER A STRING, OR A NUMBER 
+  regionAgents = datafile.jsagents
+  .sort((a,b) => a.region.localeCompare(b.region))
+  .map(agent => agent.rating);
+
+  res.status(201).json({message:"Successful ratings return by region query", data: regionAgents});
+
+}catch (error) {
+  console.error("Error returning ratings based on query parameter",error.message);
+    res.status(404).json({message:"Failed to organize queried ratings sort"});
+}
+};
+
+
+
+
+
+//Route Calling Function
+
+//
+
+const RouteCaller = (app) => {
+app.get("/hello",hello)
+app.get("/status",status)
+app.get("/error",error)
+app.get("/email-list",getEmailList)
+app.post("/contact-us",contactus) 
+//BED 2 Section Endpoints
+app.post("/agent-create",agentcreate)
+app.get("/agents",agents)
+app.get("/agents-by-region",agentsbyregion)
+
+// app.get("/agents",agents)
+
+}
+RouteCaller(app)
+
+
+
+//Comments/NOTES
+//jsagent.map needs to map something specific
+//you have to tell .join what to join
+//Look up .map and also .join (two methods to get the email list and deliniate, an email list separated by commas)
+//You should use the "jsagents" for this section
+
+
+
+//agents.json included in FSD folder
+
+//for email list^ (the list is structured as an Array of Objects)
+//Look up .map and also .join (two methods to get the email list and deliniate, an email list separated by commas)
+
+
+
 
 
 
@@ -158,37 +244,3 @@ const agentcreate = async (req, res) => {
 
 
 //"Confirmations" will be status error codes 
-
-
-//Route Calling Function
-
-//
-
-const RouteCaller = (app) => {
-app.get("/hello",hello)
-app.get("/status",status)
-app.get("/error",error)
-app.get("/email-list",getEmailList)
-app.post("/contact-us",contactus) 
-//BED 2 Section Endpoints
-app.post("/agent-create",agentcreate)
-
-// app.get("/agents",agents)
-
-}
-RouteCaller(app)
-
-
-
-//Comments/NOTES
-//jsagent.map needs to map something specific
-//you have to tell .join what to join
-//Look up .map and also .join (two methods to get the email list and deliniate, an email list separated by commas)
-//You should use the "jsagents" for this section
-
-
-
-//agents.json included in FSD folder
-
-//for email list^ (the list is structured as an Array of Objects)
-//Look up .map and also .join (two methods to get the email list and deliniate, an email list separated by commas)
