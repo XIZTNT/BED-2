@@ -153,7 +153,12 @@ try {
 //CONSTANTS CAN BE CAPITALIZED, SHOWING EITHER A STRING, OR A NUMBER 
   regionAgents = datafile.jsagents
   .sort((a,b) => a.region.localeCompare(b.region))
-  .map(agent => agent.rating);
+  //for loop
+  for(item of regionAgents)
+    console.log(regionAgents);
+  
+
+  //.map(agent => agent.rating);
 
   res.status(201).json({message:"Successful ratings return by region query", data: regionAgents});
 
@@ -164,7 +169,39 @@ try {
 };
 
 
+//Agent Update Route
+const agentupdateinfo = (req,res) => {
+  try{
+//MAP IS FOR ARRAY, USING FIND WILL WORK BETTER FOR OBJECTS!
+agentupdate = datafile.jsagents.find(agent => ({
+first_name: agent.first_name,
+  last_name: agent.last_name,
+  email: agent.email,
+  region: agent.region,
+}));
 
+console.log (agentupdate);
+res.status(201).json({message: `Proper requirements established for: ${agentupdate.first_name}, ${agentupdate.last_name}, ${agentupdate.region}, and ${agentupdate.email}`});
+
+}catch (error) {
+  console.error("Error in returning required inform ation",error.message);
+res.status(404).json("First_Name, Last_Name, Email, and Region do not have proper schematic requirements");
+}
+};
+
+//Agent Delete Route
+
+const agentdelete = (req,res) => {
+
+  try {
+  agentdeletion = datafile.jsagents.find(agent => ({
+
+
+
+    }
+
+
+};
 
 
 //Route Calling Function
@@ -181,6 +218,8 @@ app.post("/contact-us",contactus)
 app.post("/agent-create",agentcreate)
 app.get("/agents",agents)
 app.get("/agents-by-region",agentsbyregion)
+app.patch("/agent-update-info",agentupdateinfo)
+app.delete("/agent-delete",agentdelete)
 
 // app.get("/agents",agents)
 
