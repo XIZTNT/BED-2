@@ -191,18 +191,25 @@ res.status(404).json("First_Name, Last_Name, Email, and Region do not have prope
 
 //Agent Delete Route
 
+
 const agentdelete = (req,res) => {
+  try{
+//MAP IS FOR ARRAY, USING FIND WILL WORK BETTER FOR OBJECTS!
+agentdeletion = datafile.jsagents.find(agent => ({
+first_name: agent.first_name,
+  last_name: agent.last_name,
+  email: agent.email,
+  region: agent.region,
+}));
 
-  try {
-  agentdeletion = datafile.jsagents.find(agent => ({
+console.log (agentdeletion);
+res.status(200).json({message: `Proper deletion for: ${agentdeletion.first_name}, ${agentdeletion.last_name}, ${agentdeletion.region}, and ${agentdeletion.email}`});
 
-
-
-    }
-
-
+}catch (error) {
+  console.error("Error in returning required inform ation",error.message);
+res.status(404).json("First_Name, Last_Name, Email, and Region have not been properly deleted and return information");
+}
 };
-
 
 //Route Calling Function
 
