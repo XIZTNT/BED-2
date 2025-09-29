@@ -1,5 +1,7 @@
 //How to access agents.js within app.js? (line 1)
 const Agent = require("./agent.schema.js")
+//Region Scheme Import
+const RegionSchema = require("./region.schema.js")
 const datafile = require("./agents.js")
 const dotenv = require('dotenv')
 //FS functionality
@@ -113,6 +115,7 @@ const agentcreate = async (req, res) => {
 
   try {
     console.log(req.body);
+    //can also use "res.json(req.body)"
     const NewAgent = await Agent.create(req.body);
     res.status(201).json({ message: "Agent created successfully", data: NewAgent });
   } catch (error) {
@@ -211,6 +214,40 @@ res.status(404).json("First_Name, Last_Name, Email, and Region have not been pro
 }
 };
 
+
+//Region Create Route
+
+//add controllers, look @ docebo for file tree, I am sorting through mongoose data rather than "adding agents"
+
+const regioncreate = async (req, res) => {
+
+
+    const {region,address} = req.body;
+    console.log(req.body);
+
+    //1st: region n address is req.body, will need sort by a,b, need my schema to find and populate
+
+
+      //MAPPING HAT WILL BE NECESSARY L8R, REGION AND POSITION, SORT AS
+      // 90 OR ABOVE FOR SORT FUNCTION
+      // regionAgents = datafile.jsagents.find(regions => ({
+      //   North: regions.North,
+      //     East: regions.East,
+      //     South: regions.South,
+      //     West: regions.West,
+      //   }));
+    //req.body.sort((a,b) => a - b); 
+    //region n address is req.body, will need sort by a,b, need my schema to find and populate
+    //req.body.sort((a,b) => a - b);
+    // i think this is the wrong idea....->const {region, address} = req.body;
+    // const agentsInRegion = datafile.jsagents.sort((a,b) => b.sales - a.sales);
+    // const TopAgents = datafile.jsagents.sort((a,b) => 
+
+    //here I will need to create an existing region where I find (find 1 method), then use agent schema to create a amanger for those regions, a manager and an agent (with a promise or other method), then I will need a variable for the tops agents and that willl be equal to the sorted agents within the region (will sort these agents by their sales) [a,b and b,a] attached to sales )(a.sales<b.sales) via numerically (sales), then use the schema to create a new region and will have all of these variables created using 
+//other variables I will need will be to find the existing region, a manager in the region, agents in the region, top agents, and total sales, and then a new region (the new region wll hold all of these previous mentioned variables)   
+    res.status(201).json({ message: "New Region created successfully", data: NewRegionAgent });
+};
+
 //Route Calling Function
 
 //
@@ -227,6 +264,9 @@ app.get("/agents",agents)
 app.get("/agents-by-region",agentsbyregion)
 app.patch("/agent-update-info",agentupdateinfo)
 app.delete("/agent-delete",agentdelete)
+//BED 2 Region Section Endpoints
+app.post("/region-create",regioncreate)
+
 
 // app.get("/agents",agents)
 

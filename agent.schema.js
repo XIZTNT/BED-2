@@ -48,7 +48,7 @@ sales: {
     trim:true,
     required:false,
     value: 0
-}
+}           
 
 });
 

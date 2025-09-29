@@ -9,38 +9,51 @@
 
 // ES Module Syntax
 // import mongoose from 'mongoose';
-
+ 
 // Common JS
 const mongoose = require('mongoose');
-const RegionSchema = new mongoose.Schema({
+const RegionsSchema = new mongoose.Schema({
 region: {
     type:String,
-    trim:true,
-    required:true
+    required:true,
+    //unique is allowing a value to be assigned specifically to our region
+    unique: true,
+    //array here, nort, w, e, s
+    enum:{values: ["North", "East", "South", "West"]}
+    
+    //need enumeration for proper format "enum" (a string as an object)
 },
 address: { 
     type:String,
+    //trim is only necessary for string types making sure there are no spaces after
     trim:true,
-    required:true
+    required:false  
 },
 manager: {
-    type:String,
-    trim:true,
-    required:true
+    //
+    type:mongoose.Schema.Types.ObjectId,
+    ref:"Agent",
+    required:false
 },
 top_agents: { 
-type:String,
-trim:true,
-required:true,
+type:mongoose.Schema.Types.ObjectId,
+ref:"Agent",
+required:false,
+},
+total_sales: { 
+    type:Number,
+    trim:true,
+    required:false,
+    value: 0
 }
 
 });
 
 
 //module exports to be used in other files
-const RegionAgent = mongoose.model("RegionAgent",RegionSchema);
+const RegionSchema = mongoose.model("RegionAgent",RegionSchema);
 //New export [Common JS Format] default for Agent Model
-module.exports = RegionAgent;
+module.exports = RegionSchema;
 
 
 //OLD LINE (ES Modules) used for expport into app.js
