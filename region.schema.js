@@ -12,14 +12,14 @@
  
 // Common JS
 const mongoose = require('mongoose');
-const RegionsSchema = new mongoose.Schema({
+const NewRegionSchema = new mongoose.Schema({
 region: {
     type:String,
     required:true,
     //unique is allowing a value to be assigned specifically to our region
     unique: true,
     //array here, nort, w, e, s
-    enum:{values: ["North", "East", "South", "West"]}
+    enum: ["North", "East", "South", "West"] //took out "values and {}"
     
     //need enumeration for proper format "enum" (a string as an object)
 },
@@ -32,26 +32,29 @@ address: {
 manager: {
     //
     type:mongoose.Schema.Types.ObjectId,
-    ref:"Agent",
-    required:false
+    //changed from "Agent" as that was previous Agent Schema export
+    ref:"AgentSchema",
+    required:false,
+    unique: true,
 },
-top_agents: { 
+top_agents: [{ // added array to fit multiple objects, rather than a singular one
 type:mongoose.Schema.Types.ObjectId,
-ref:"Agent",
+//changed from "Agent" as that was previous Agent Schema export
+ref:"AgentSchema",
 required:false,
-},
+}],
 total_sales: { 
     type:Number,
     trim:true,
     required:false,
-    value: 0
+    default: 0 //changed from "default:0"? 
 }
 
 });
 
 
 //module exports to be used in other files
-const RegionSchema = mongoose.model("RegionAgent",RegionSchema);
+const RegionSchema = mongoose.model("RegionSchema",NewRegionSchema);
 //New export [Common JS Format] default for Agent Model
 module.exports = RegionSchema;
 

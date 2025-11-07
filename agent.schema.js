@@ -12,21 +12,25 @@
 
 // Common JS
 const mongoose = require('mongoose');
-const AgentSchema = new mongoose.Schema({
+//model variable has to be named different than rest of variables used to export this model to other files
+//hence why model is named "NewAgentSchema"
+const NewAgentSchema = new mongoose.Schema({
 first_name: {
     type:String,
     trim:true,
-    required:true
+    required:false //changed to allow region controller to run
 },
 last_name: { 
     type:String,
     trim:true,
-    required:true
+    required:false //changed to allow region controller to run
+
 },
 email: {
     type:String,
     trim:true,
-    required:true
+    required:false //changed to allow region controller to run
+
 },
 region: { 
 type:String,
@@ -48,15 +52,17 @@ sales: {
     trim:true,
     required:false,
     value: 0
+    //I NEED TO ADD A MANAGER POSITION MOST LIKELY SO REGION SCHEMA CAN WORK W THIS?
+    //I THINK I HAVE ACHIEVED THIS WITH REGIONSCHEMA
 }           
 
 });
 
 
 //module exports to be used in other files
-const Agent = mongoose.model("Agent",AgentSchema);
+const AgentSchema = mongoose.model("AgentSchema",NewAgentSchema);
 //New export [Common JS Format] default for Agent Model
-module.exports = Agent;
+module.exports = AgentSchema;
 
 
 //OLD LINE (ES Modules) used for expport into app.js

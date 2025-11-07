@@ -1,15 +1,15 @@
 //How to access agents.js within app.js? (line 1)
-const Agent = require("./agent.schema.js")
+// import AgentSchema from "./agent.schema.js"
 //Region Scheme Import
-const RegionSchema = require("./region.schema.js")
-const datafile = require("./agents.js")
-const dotenv = require('dotenv')
+// import RegionSchema from "./region.schema.js"
+// import jsagents from "./agents.js"
+import dotenv from 'dotenv'
 //FS functionality
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+// import path from 'path';
 dotenv.config()
 //Express Middlware
-const express = require('express');
+import express from 'express';
 const app = express();
 app.use(express.json());
 //Added in to make sure parsing is a non-issue with Postman Requests
@@ -18,17 +18,14 @@ app.use(express.urlencoded({ extended: true }));
 const port = process.env.PORT || 5050
 const env = process.env.ENV || ""
 
-
 //Mongo Manager Open Connection
-const MongoManager = require('./mongo-manager')
-MongoManager.openMongoConnection();
+import { openMongoConnection } from './mongo-manager.js';
+openMongoConnection();
 app.listen(port, () => {
   //app.get(do more research to setup api endpoint and call function)
   console.log(` server listening on port ${port} `)
 })
 
-//Mongo Manager
-const MongoDBFile = require("./mongo-manager.js")
 
 
 //Field Value Pairs for Mongo
@@ -214,6 +211,11 @@ res.status(404).json("First_Name, Last_Name, Email, and Region have not been pro
 }
 };
 
+//I WILL NEED TO IMPORT MY CONTROLLER JS FILE
+// const agentController = require('./controller.js');
+
+//MVC = THINK OF THE CONTROLLER LIKE A CAR, (ITS WHAT GETS YOU THERE), and the ROUTE IS THE ROAD, THE ROUTE IS THE PURPOSE TO COMMMUNICATE WHAT IS IN THE CONTROLLER TO APP JSS, ROUTES PASS THE INFO FROM CONTROLLERS TO EXPRESS IN WHICH PASSES
+//if theres an issue its issolated, , and you know where everything is...
 
 //Region Create Route
 
@@ -251,27 +253,32 @@ const regioncreate = async (req, res) => {
 //Route Calling Function
 
 //
-
+//if the routers are are separated into 
 const RouteCaller = (app) => {
 app.get("/hello",hello)
 app.get("/status",status)
 app.get("/error",error)
 app.get("/email-list",getEmailList)
 app.post("/contact-us",contactus) 
-//BED 2 Section Endpoints
-app.post("/agent-create",agentcreate)
-app.get("/agents",agents)
-app.get("/agents-by-region",agentsbyregion)
-app.patch("/agent-update-info",agentupdateinfo)
-app.delete("/agent-delete",agentdelete)
-//BED 2 Region Section Endpoints
-app.post("/region-create",regioncreate)
+//BED 2 Section Endpoints, NOW IN "AgentController" and "RegionsController"
+}
+RouteCaller(app)
 
+//BED 2 Region Section Endpoints
 
 // app.get("/agents",agents)
 
-}
-RouteCaller(app)
+//NEW AGENT ROUTES
+import './AgentRoutes.js'
+//NEW REGION ROUTES
+import './RegionRoutes.js'
+//const RoutesforRegion = require ('./RegionRoutes')
+//NEW "get" USAGE for postman
+//This tells me that I'm using my routes that is connected to the controller file, while using the specific route, in this case agent create, within the "AgentRoutes file"
+//AGENT CALLBACK ROUTES FOR POSTMAN
+app.use("/", RoutesforAgents);
+//
+app.use("/", RoutesforRegionAgents);
 
 
 
