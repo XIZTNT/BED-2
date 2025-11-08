@@ -11,7 +11,9 @@
 // import mongoose from 'mongoose';
  
 // Common JS
-const mongoose = require('mongoose');
+//in ES6, use this line to add mongoose w/ schema
+import mongoose from 'mongoose';
+
 const NewRegionSchema = new mongoose.Schema({
 region: {
     type:String,
@@ -56,7 +58,7 @@ total_sales: {
 //module exports to be used in other files
 const RegionSchema = mongoose.model("RegionSchema",NewRegionSchema);
 //New export [Common JS Format] default for Agent Model
-module.exports = RegionSchema;
+export default RegionSchema;
 
 
 //OLD LINE (ES Modules) used for expport into app.js

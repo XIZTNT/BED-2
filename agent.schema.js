@@ -10,11 +10,13 @@
 // ES Module Syntax
 // import mongoose from 'mongoose';
 
-// Common JS
-const mongoose = require('mongoose');
+// Common JS CHANGED TO ES6
+import 'mongoose';
+//this is how in ES6, you get mongoose to work
+import mongoose from 'mongoose';
 //model variable has to be named different than rest of variables used to export this model to other files
 //hence why model is named "NewAgentSchema"
-const NewAgentSchema = new mongoose.Schema({
+const NewAgentSchema = mongoose.Schema({
 first_name: {
     type:String,
     trim:true,
@@ -62,7 +64,7 @@ sales: {
 //module exports to be used in other files
 const AgentSchema = mongoose.model("AgentSchema",NewAgentSchema);
 //New export [Common JS Format] default for Agent Model
-module.exports = AgentSchema;
+export default AgentSchema;
 
 
 //OLD LINE (ES Modules) used for expport into app.js

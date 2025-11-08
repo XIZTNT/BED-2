@@ -1,14 +1,15 @@
 
 
 //FS functionality
-const fs = require('fs');
-const path = require('path');
+import 'fs';
+import 'path';
 
 // Data we are interacting with
-import './agents'
+import './agents.js'
 
 //Model we are interacting with in Mongo
-const AgentSchema = require('./agent.schema')
+import './agent.schema.js'
+import { fstat } from 'fs';
 
 //AGENT CREATE FUNCTION
 
@@ -30,10 +31,10 @@ const agentcreate = async (req, res) => {
   //Return all agents by last name alphabetically ENDPOINT
   //Will want to stick with sort function in order to compare values that come before or after
   //read datafile as a datafile (use or lookup "fs" read file)
-  fs.readFile("agents.js","utf8", (err,content) => {
-    console.log(content);
-  });
-
+  // fs.readFile("agents.js","utf8", (err,content) => {
+  //   console.log(content);
+  // });
+//COMMENTED OUT DUE TO ES6 CHANGE
 
   //checjk if im geting through emit
   const agents = async (req, res) => {

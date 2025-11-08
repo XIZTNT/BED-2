@@ -4,7 +4,7 @@ import express from 'express';
 // const AgentSchema = require('./agent.schema'); -- NOT SURE IF NEEDED AT THIS POINT
 const router = express.Router();
 //IMPORT AGENT CONTROLLER
-import './AgentController'
+import './AgentController.js'
 const AgentRouteEndPoints = (app) => {
 
 router.post("/agentcreate",AgentController.agentcreate);

@@ -9,7 +9,7 @@
 // const env = process.env.ENV || ""
 
 //Mongo Manager
-import MongoDBFile from "./mongo-manager.js"
+import "./mongo-manager.js"
 
 //when working with the region schema, ONLY WORK WITH "REGION" requirements
 //new function for agent create route, the schema is working with mongodb
@@ -133,7 +133,9 @@ const allstars = async (req, res) => {
 
 
 //EXPORT TO ROUTES
-export { regioncreate, getregions, allstars};
+//"EXPORT" only will not work for these, you must use export default,
+//otherwise you run into the error: "SyntaxError: The requested module './RegionsController.mjs' does not provide an export named 'default' "
+export default { regioncreate, getregions, allstars};
 
 //Thoughts: What I may need to do is, import and require agents JS
 // then name my "db = agent const for import"

@@ -1,9 +1,9 @@
-const express = require('express');
+import express from 'express';
 //my model OR IMPORT AGENTS.JS
-const RegionSchema = require ('./region.schema')
+import './region.schema.js'
 // const AgentSchema = require('./agent.schema'); -- NOT SURE IF NEEDED AT THIS POINT
 const router = express.Router();
-const RegionsController = require ('./RegionsController')
+import RegionsController from './RegionsController.mjs'
 
 
 //REGION ROUTES
@@ -16,5 +16,5 @@ router.get("/allstars",RegionsController.allstars);
 
 
 //NECESSAY TO IMPORT WITHIN APPJS SO THESE FILES CAN COMMUNICATE IN MVC FORMAT
-module.exports = router;
+export default router;
 
