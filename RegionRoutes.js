@@ -10,11 +10,12 @@ import RegionsController from './RegionsController.mjs'
 
 router.post("/regioncreate",RegionsController.regioncreate);
 
-router.get("/getregion",RegionsController.getregions);
+router.get("/getregion",RegionsController.getregion);
 
 router.get("/allstars",RegionsController.allstars);
 
 
 //NECESSAY TO IMPORT WITHIN APPJS SO THESE FILES CAN COMMUNICATE IN MVC FORMAT
+
 export default router;
 

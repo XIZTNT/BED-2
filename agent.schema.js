@@ -20,18 +20,18 @@ const NewAgentSchema = mongoose.Schema({
 first_name: {
     type:String,
     trim:true,
-    required:false //changed to allow region controller to run
+    required:true //changed to allow region controller to run
 },
 last_name: { 
     type:String,
     trim:true,
-    required:false //changed to allow region controller to run
+    required:true //changed to allow region controller to run
 
 },
 email: {
     type:String,
     trim:true,
-    required:false //changed to allow region controller to run
+    required:true //changed to allow region controller to run
 
 },
 region: { 
@@ -53,7 +53,8 @@ sales: {
     type:Number,
     trim:true,
     required:false,
-    value: 0
+    default: 0
+    //changed from value to allow BED2 module to allow sale's number in req.body
     //I NEED TO ADD A MANAGER POSITION MOST LIKELY SO REGION SCHEMA CAN WORK W THIS?
     //I THINK I HAVE ACHIEVED THIS WITH REGIONSCHEMA
 }           

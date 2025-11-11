@@ -28,58 +28,61 @@ import AgentSchema from "./agent.schema.js"
 //essentially = //const {}, and the items that make up the region
 
 
-//REGION CREATE ITEMS
+//REGION CREATE ITEMS API
 
-const regioncreate = async (req, res) => {
+    const regioncreate = async (req, res) => {
+      const { manager, region, address } = req.body;
+    
+      try {
+        // Check if region already exists
+        const existingRegion = await RegionSchema.findOne({ region });
+        if (existingRegion) {
+          return res.status(400).json({ error: `Region ${region} already exists` });
+        }
+        // Create manager
+        //WITH THE FORMAT OF "MANAGER.", THIS IS ALLOWS ME TO USE IDENTICAL OBJECTS IN POSTMAN 
+        //WHILE ALSO AVOIDING THE DUPLICATE OBJECT KEY ERROR. THIS IS AVOIDED BY USING THE REGULAR
+        //REQ.BODY FOR REGION OBJECTS!
+        const newManager = await AgentSchema.create({
+          first_name: manager.first_name,
+          last_name: manager.last_name,
+          email: manager.email,
+          region: manager.region,
+          sales: Number(manager.sales) || 0
+        });
+        //REFER TO COMMENTS ON LINE 43-45 FOR CLARIFICATION ON LACK OF FORMAT CONSISTENCY
+        // Create new region
+        const newRegion = await RegionSchema.create({
+          region: region,
+          address: address,
+          manager: newManager._id, //this is an ID because the is what the schema reflects
+          // manager: newManager._id, I don't need because this will be created by the AgentSchema
+        });
+    
+        // Access newRegion here
+        const allAgents = await AgentSchema.find({ region: newRegion.region });
+        const topAgents = allAgents.sort((a, b) => b.sales - a.sales).slice(0, 3);
+        const totalSales = allAgents.reduce((sum, agent) => sum + agent.sales, 0);
 
-const { region, address, manager, totalsales } = req.body;
+        //Save total sales so that it is avaliable for the getregion endpoint
+        newRegion.total_sales = totalSales;
+        await newRegion.save();
+    
+    
+        res.status(201).json({
+          message: `Region ${region} created successfully`,
+          data: { newRegion, newManager, topAgents, totalSales},
+        });
+      } catch (error) {
+        console.error('Failed to create region', error);
+        res.status(500).json({ message: 'Failed to create region', error: error.message });
+      }
+    };
+    
+//GET REGION API
 
-  try {
-  // check if region already exists
-  const existingRegion = await RegionSchema.findOne({ region: region });
-  if (existingRegion) {
-    return res.status(400).json({ error: `Region ${region} already exists` });
-  }
-
-  // NEW REGION
-const newRegion = await RegionSchema.create({
-  region: req.body.region,
-  address: req.body.address,
-  manager: req.body.manager,
-//i dont believe i need top agents here tbh
-  total_sales: totalsales,
-});
-    res.status(201).json({
-      message: `Region ${region} created successfully`,
-      data: newRegion,
-    });
-  } catch (error) {
-    console.error('Failed to create region', error);
-    res.status(500).json({ message: 'Failed to create region', error: error.message });
-  }
-};
-
-    // Get all agents for this region
-    const allAgents = await RegionSchema.find({ newRegion });
-    const topAgents = allAgents.sort((a, b) => b.sales - a.sales).slice(0, 3);
-    const totalSales = allAgents.reduce((sum, agent) => sum + agent.sales, 0);
-
-    // Create manager
-    const manager = await AgentSchema.create({
-      name: req.body.name,
-      region: req.body.region,
-      sales: 0,
-    });
-
-  
-
-/**
- * GET /api/region?region=North
- * Returns info about all regions, or one region if specified
- */
-const getregions = async (req, res) => {
+const getregion = async (req, res) => {
   const { region } = req.query;
-
   try {
     // if a region is specified, return that region only
     if (region) {
@@ -135,7 +138,7 @@ const allstars = async (req, res) => {
 //EXPORT TO ROUTES
 //"EXPORT" only will not work for these, you must use export default,
 //otherwise you run into the error: "SyntaxError: The requested module './RegionsController.mjs' does not provide an export named 'default' "
-export default { regioncreate, getregions, allstars};
+export default { regioncreate, getregion, allstars};
 
 //Thoughts: What I may need to do is, import and require agents JS
 // then name my "db = agent const for import"
