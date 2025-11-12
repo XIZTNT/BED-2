@@ -65,9 +65,11 @@ import AgentSchema from "./agent.schema.js"
         const totalSales = allAgents.reduce((sum, agent) => sum + agent.sales, 0);
 
         //Save total sales so that it is avaliable for the getregion endpoint
+        //Save top agents so that is is avaliable for the getregion endpoint
         newRegion.total_sales = totalSales;
+        newRegion.top_agents = topAgents.map(agent => agent._id);
         await newRegion.save();
-    
+
     
         res.status(201).json({
           message: `Region ${region} created successfully`,
@@ -82,9 +84,12 @@ import AgentSchema from "./agent.schema.js"
 //GET REGION API
 
 const getregion = async (req, res) => {
+  // grabs query params
+// If you call /api/getregion?region=North, req.query.region will be "North".
+// If no query is provided, region is undefined
   const { region } = req.query;
   try {
-    // if a region is specified, return that region only
+    // if a region is specified, return that one region only
     if (region) {
       const regionData = await RegionSchema.findOne({ region });
       if (!regionData) {
@@ -111,11 +116,14 @@ const allstars = async (req, res) => {
   try {
     const regions = ['North', 'South', 'East', 'West'];
     const allStars = [];
-
+//"r" is the query object passed to Mongoose, all of the region values are being looped through
     for (const r of regions) {
       const topAgent = await AgentSchema.findOne({ region: r })
+      //agents specific to the region are picked for the highest sales
         .sort({ sales: -1 })
+        //limit 1 picks 1 agent in the case that there are multiple
         .limit(1)
+        //lean allows for the Mongoose document to be returned
         .lean();
 
       if (topAgent) {
@@ -124,12 +132,12 @@ const allstars = async (req, res) => {
     }
 
     res.status(200).json({
-      message: '🌟 All-Star agents fetched successfully',
+      message: 'All-Star agents fetched successfully',
       count: allStars.length,
       data: allStars,
     });
   } catch (error) {
-    console.error('❌ Failed to fetch all-star agents', error);
+    console.error('Failed to fetch all-star agents', error);
     res.status(500).json({ message: 'Failed to fetch all-stars', error: error.message });
   }
 };
