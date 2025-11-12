@@ -269,11 +269,12 @@ RouteCaller(app)
 // app.get("/agents",agents)
 
 //NEW AGENT ROUTES
-import AgentRouteEndPoints from './AgentRoutes.js'
+import AgentRouteEndPoints from './Routes/AgentRoutes.js'
 //NEW REGION ROUTES
-import RegionRouteEndPoints from './RegionRoutes.js'
+import RegionRouteEndPoints from './Routes/RegionRoutes.js'
 // AgentRouteEndPoints, will need to change for these imports later
-
+//MIDDLEWARE ROUTE FOR AUTHENTICATION
+import authMiddleware from './baseMiddleware.js';
 //const RoutesforRegion = require ('./RegionRoutes')
 //NEW "get" USAGE for postman
 //This tells me that I'm using my routes that is connected to the controller file, while using the specific route, in this case agent create, within the "AgentRoutes file"
@@ -281,7 +282,8 @@ import RegionRouteEndPoints from './RegionRoutes.js'
 app.use("/agent", AgentRouteEndPoints);
 //
 app.use("/", RegionRouteEndPoints);
-
+//CALLBACK FOR MIDDLEWARE AND CONTROLLER
+//most likely it will be an app.post
 
 
 //Comments/NOTES

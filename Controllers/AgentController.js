@@ -5,10 +5,10 @@ import 'fs';
 import 'path';
 
 // Data we are interacting with
-import './agents.js'
+import '../agents.js'
 
 //Model we are interacting with in Mongo
-import './agent.schema.js'
+import '../agent.schema.js'
 import { fstat } from 'fs';
 
 //AGENT CREATE FUNCTION
