@@ -2,13 +2,13 @@
 // baseMiddleware.js
 
 // Hard-coded access token (for now)
-const ACCESS_TOKEN = "my-secret-access-key"; // <-- you can change this to anything
+const ACCESS_TOKEN = "AccessGranted24"; // <-- you can change this to anything
 
 // Middleware function
 const authMiddleware = (req, res, next) => {
   try {
-    // Get token from Authorization header
-    const authHeader = req.headers['auth-token'];
+    // Get token from Authorization header, can be an array if multiple values are necessary
+    const authHeader = req.header('authorization');
 
     // If header is missing, block access
     if (!authHeader) {

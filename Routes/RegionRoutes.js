@@ -4,14 +4,17 @@ import '../region.schema.js'
 // const AgentSchema = require('./agent.schema'); -- NOT SURE IF NEEDED AT THIS POINT
 const router = express.Router();
 import RegionsController from '../Controllers/RegionsController.mjs'
+import baseMiddleware from '../shared/middleware/baseMiddleware.js'
 
 
 //REGION ROUTES
 
-router.post("/regioncreate",RegionsController.regioncreate);
+router.post("/regioncreate",baseMiddleware,RegionsController.regioncreate);
 
-router.get("/getregion",RegionsController.getregion);
+router.get("/getregion",baseMiddleware,RegionsController.getregion);
 
+//if this is technically less sensitive data, you can remove the "baseMiddlware"
+//to make this information more accesible
 router.get("/allstars",RegionsController.allstars);
 
 

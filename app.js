@@ -273,8 +273,8 @@ import AgentRouteEndPoints from './Routes/AgentRoutes.js'
 //NEW REGION ROUTES
 import RegionRouteEndPoints from './Routes/RegionRoutes.js'
 // AgentRouteEndPoints, will need to change for these imports later
-//MIDDLEWARE ROUTE FOR AUTHENTICATION
-import authMiddleware from './baseMiddleware.js';
+//MIDDLEWARE ROUTE FOR AUTHENTICATION - NOT NECESSARY DUE TO TIES TO REGION ROUTES
+// import authMiddleware from './shared/middleware/baseMiddleware.js';
 //const RoutesforRegion = require ('./RegionRoutes')
 //NEW "get" USAGE for postman
 //This tells me that I'm using my routes that is connected to the controller file, while using the specific route, in this case agent create, within the "AgentRoutes file"
