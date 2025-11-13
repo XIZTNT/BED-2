@@ -8,7 +8,7 @@ import 'path';
 import '../agents.js'
 
 //Model we are interacting with in Mongo
-import '../agent.schema.js'
+import '../src/shared/db/schemas.js/agent.schema.js'
 import { fstat } from 'fs';
 
 //AGENT CREATE FUNCTION
