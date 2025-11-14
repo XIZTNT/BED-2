@@ -5,11 +5,10 @@ import 'fs';
 import 'path';
 
 // Data we are interacting with
-import '../agents.js'
+import datafile from '../agents.js'
 
 //Model we are interacting with in Mongo
-import '../src/shared/db/schemas.js/agent.schema.js'
-import { fstat } from 'fs';
+import AgentSchema from '../src/shared/db/schemas.js/agent.schema.js';
 
 //AGENT CREATE FUNCTION
 
@@ -55,97 +54,105 @@ const agentcreate = async (req, res) => {
   
   //AGENTS BY REGION FUNCTION
   
-  const agentsbyregion = (req,res) => {
+  // -----------------------------
+// Get agents by region (required query parameter 'region')
+//EXAMPLE URL: http://localhost:3000/agent/agents-by-region?region=north
+// Sorted by rating (highest to lowest)
+// -----------------------------
+const agentsbyregion = (req, res) => {
   try {
-  //I NEED A VALUE PAIR, I NEED REGION:REGION, AGENTRATING:COLON
-  //LEFT HAND SIDE IS SHOWN CAN BE CALLED ANYTHING YOU WANT
-  //CONSTANTS CAN BE CAPITALIZED, SHOWING EITHER A STRING, OR A NUMBER 
-  const regionAgents = datafile.jsagents.sort((a,b) => a.region.localeCompare(b.region))
-    //for loop
-    for(item of regionAgents)
-      console.log(regionAgents);
-    
-  
-    //.map(agent => agent.rating);
-  
-    res.status(201).json({message:"Successful ratings return by region query", data: regionAgents});
+    const region = req.query.region;
 
-    
-  }catch (error) {
-    console.error("Error returning ratings based on query parameter",error.message);
-      res.status(404).json({message:"Failed to organize queried ratings sort"});
+    // Enforce required query param
+    if (!region) {
+      return res.status(400).json({ message: "Query parameter 'region' is required" });
+    }
+
+    // Filter agents by region
+    let filteredAgents = datafile.jsagents.filter(
+      agent => agent.region.toLowerCase() === region.toLowerCase()
+    );
+
+    // Sort by rating (descending)
+    filteredAgents.sort((a, b) => Number(b.rating) - Number(a.rating));
+
+    res.status(200).json({
+      message: `Agents in region '${region}' sorted by rating`,
+      data: filteredAgents
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Failed to fetch agents by region", error: error.message });
   }
-  };
+};
 
-  //CHATGPT
-  // const agentsbyregion = (req, res) => {
-  //   try {
-      
-  //     const regionAgents = datafile.jsagents.sort((a, b) =>
-  //       a.region.localeCompare(b.region)
-  //     );
-  
-  //     // Optional: group or log nicely
-  //     regionAgents.forEach(agent => {
-  //       console.log(`Region: ${agent.region} | Agent Rating: ${agent.rating}`);
-  //     });
-  
-  //     res.status(200).json({
-  //       message: "Successfully sorted agents by region",
-  //       data: regionAgents
-  //     });
-  
-  //   } catch (error) {
-  //     console.error("Error returning ratings based on query parameter:", error.message);
-  //     res.status(500).json({
-  //       message: "Failed to organize queried ratings sort",
-  //       error: error.message
-  //     });
-  //   }
-  // };
-  
   
   //Agent Update Info FUNCTION
-  const agentupdateinfo = (req,res) => {
-    try{
-  //MAP IS FOR ARRAY, USING FIND WILL WORK BETTER FOR OBJECTS!
-  agentupdate = datafile.jsagents.find(agent => ({
-  first_name: agent.first_name,
-    last_name: agent.last_name,
-    email: agent.email,
-    region: agent.region,
-  }));
+  const agentupdateinfo = (req, res) => {
+    try {
+      const { email, first_name, last_name, region } = req.body;
   
-  console.log (agentupdate);
-  res.status(201).json({message: `Proper requirements established for: ${agentupdate.first_name}, ${agentupdate.last_name}, ${agentupdate.region}, and ${agentupdate.email}`});
+      // Find the agent by unique identifier (email)
+      const agent = datafile.jsagents.find(a => a.email === email);
   
-  }catch (error) {
-    console.error("Error in returning required inform ation",error.message);
-  res.status(404).json("First_Name, Last_Name, Email, and Region do not have proper schematic requirements");
-  }
+      if (!agent) {
+        return res.status(404).json({ message: "Agent not found" });
+      }
+  
+      // Only update allowed fields
+      if (first_name) agent.first_name = first_name;
+      if (last_name) agent.last_name = last_name;
+      if (region) agent.region = region;
+  
+      res.status(200).json({
+        message: "Agent updated successfully",
+        data: {
+          first_name: agent.first_name,
+          last_name: agent.last_name,
+          email: agent.email,
+          region: agent.region
+        }
+      });
+  
+    } catch (error) {
+      console.error("Error updating agent info:", error.message);
+      res.status(500).json({ message: "Failed to update agent info", error: error.message });
+    }
   };
   
   // AGENT DELETE FUNCTION
+  const agentdelete = (req, res) => {
+    try {
+      const { email } = req.body;  // Only need email for deletion
   
+      if (!email) {
+        return res.status(400).json({ message: "Email is required to delete an agent" });
+      }
   
-  const agentdelete = (req,res) => {
-    try{
-  //MAP IS FOR ARRAY, USING FIND WILL WORK BETTER FOR OBJECTS!
-  agentdeletion = datafile.jsagents.find(agent => ({
-  first_name: agent.first_name,
-    last_name: agent.last_name,
-    email: agent.email,
-    region: agent.region,
-  }));
+      const index = datafile.jsagents.findIndex(agent => agent.email === email);
   
-  console.log (agentdeletion);
-  res.status(200).json({message: `Proper deletion for: ${agentdeletion.first_name}, ${agentdeletion.last_name}, ${agentdeletion.region}, and ${agentdeletion.email}`});
+      if (index === -1) {
+        return res.status(404).json({ message: "Agent not found" });
+      }
   
-  }catch (error) {
-    console.error("Error in returning required inform ation",error.message);
-  res.status(404).json("First_Name, Last_Name, Email, and Region have not been properly deleted and return information");
-  }
+      const deletedAgent = datafile.jsagents.splice(index, 1)[0];
+  
+      res.status(200).json({
+        message: "Agent deleted successfully",
+        data: {
+          first_name: deletedAgent.first_name,
+          last_name: deletedAgent.last_name,
+          email: deletedAgent.email,
+          region: deletedAgent.region
+        }
+      });
+  
+    } catch (error) {
+      console.error("Error deleting agent:", error.message);
+      res.status(500).json({ message: "Failed to delete agent", error: error.message });
+    }
   };
+  
 
 
 
@@ -155,6 +162,4 @@ const agentcreate = async (req, res) => {
   
   //EXPORTING SO THAT CONTROLLER FUNCTIONS CAN BE USED IN ROUTES
 
-  export default { agentcreate, agents, agentsbyregion, agentupdateinfo, agentdelete
-
-  };
+  export default { agentcreate, agents, agentsbyregion, agentupdateinfo, agentdelete};

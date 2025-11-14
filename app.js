@@ -2,13 +2,13 @@
 // import AgentSchema from "./agent.schema.js"
 //Region Scheme Import
 // import RegionSchema from "./region.schema.js"
-// import jsagents from "./agents.js"
+import datafile from "./agents.js"
 import dotenv from 'dotenv'
 //FS functionality
 import fs from 'fs';
 // import path from 'path';
 dotenv.config()
-//Express Middlware
+//Express Middleware
 import express from 'express';
 const app = express();
 app.use(express.json());
@@ -17,6 +17,8 @@ app.use(express.urlencoded({ extended: true }));
 // app.use(bodyParser.json()), no need to use
 const port = process.env.PORT || 5050
 const env = process.env.ENV || ""
+//MIDDLEWARE IMPORT FOR AUTHENTICATION ON ROCKET ELEVATORS ROUTES
+import baseMiddleware from './src/shared/middleware/baseMiddleware.js'
 
 //Mongo Manager Open Connection
 import { openMongoConnection } from './src/shared/db/mongo-manager.js';
@@ -67,8 +69,8 @@ const RouteCaller = (app) => {
   app.get("/status",status)
   app.get("/error",error)
   //These Routes require authentication
-  app.get("/email-list",getEmailList)
-  app.post("/contact-us",contactus) 
+  app.get("/email-list",baseMiddleware,getEmailList)
+  app.post("/contact-us",baseMiddleware,contactus) 
   //BED 2 Section Endpoints, NOW IN "AgentController" and "RegionsController"
   }
   RouteCaller(app)
@@ -87,11 +89,12 @@ import RegionRouteEndPoints from './Routes/RegionRoutes.js'
 // import authMiddleware from './shared/middleware/baseMiddleware.js';
 //const RoutesforRegion = require ('./RegionRoutes')
 //NEW "get" USAGE for postman
-//This tells me that I'm using my routes that is connected to the controller file, while using the specific route, in this case agent create, within the "AgentRoutes file"
+//This tells me that I'm using my routes that is connected to the controller file, 
+//while using the specific route, in this case agent create, within the "AgentRoutes file"
 //AGENT CALLBACK ROUTES FOR POSTMAN
 app.use("/agent", AgentRouteEndPoints);
 //
-app.use("/", RegionRouteEndPoints);
+app.use("/region", RegionRouteEndPoints);
 
 
 //Comments/NOTES

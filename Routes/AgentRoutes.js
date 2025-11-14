@@ -7,11 +7,11 @@ const router = express.Router();
 import AgentController from '../Controllers/AgentController.js'
 // const AgentRouteEndPoints = (app) => {
 
-router.post("/agentcreate",AgentController.agentcreate);
+router.post("/agent-create",AgentController.agentcreate);
 router.get("/agents",AgentController.agents);
-router.get("/agentsbyregion",AgentController.agentsbyregion);
-router.patch("/agentupdateinfo",AgentController.agentupdateinfo);
-router.delete("/agentdelete",AgentController.agentdelete);
+router.get("/agents-by-region",AgentController.agentsbyregion);
+router.patch("/agent-update-info",AgentController.agentupdateinfo);
+router.delete("/agent-delete",AgentController.agentdelete);
 // }
 
 //NECESSAY TO IMPORT WITHIN APPJS SO THESE FILES CAN COMMUNICATE IN MVC FORMAT

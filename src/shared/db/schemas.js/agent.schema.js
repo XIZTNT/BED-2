@@ -11,7 +11,6 @@
 // import mongoose from 'mongoose';
 
 // Common JS CHANGED TO ES6
-import 'mongoose';
 //this is how in ES6, you get mongoose to work
 import mongoose from 'mongoose';
 //model variable has to be named different than rest of variables used to export this model to other files
