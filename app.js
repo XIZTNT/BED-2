@@ -2,7 +2,7 @@
 // import AgentSchema from "./agent.schema.js"
 //Region Scheme Import
 // import RegionSchema from "./region.schema.js"
-import datafile from "./src/shared/agents.js"
+import datafile from "./agents.js"
 import dotenv from 'dotenv'
 //FS functionality
 import fs from 'fs';

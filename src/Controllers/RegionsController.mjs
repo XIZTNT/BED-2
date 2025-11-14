@@ -8,16 +8,16 @@
 // const port = process.env.PORT || 5050
 // const env = process.env.ENV || ""
 //Mongo Manager
-import "../shared/db/mongo-manager.js"
+import "../src/shared/db/mongo-manager.js"
 
 //when working with the region schema, ONLY WORK WITH "REGION" requirements
 //new function for agent create route, the schema is working with mongodb
-import RegionSchema from "../shared/db/schemas.js/region.schema.js"
+import RegionSchema from "../src/shared/db/schemas.js/region.schema.js"
 
 //when working with the agent schema, ONLY WORK WITH "AGENT" requirements
 //Agent Schema import to reference AGENT related requirements
 //THIS WILL BE USED WITH MANAGERS
-import AgentSchema from "../shared/db/schemas.js/agent.schema.js"
+import AgentSchema from "../src/shared/db/schemas.js/agent.schema.js"
 
 
 //Adding RegionAPIData as a new collection to our existing Mongo DB ???

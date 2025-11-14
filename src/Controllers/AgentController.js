@@ -5,7 +5,7 @@ import 'fs';
 import 'path';
 
 // Data we are interacting with
-import {jsagents} from '../src/shared/agents.js'
+import jsagents from '../src/shared/agents.js'
 
 //Model we are interacting with in Mongo
 import AgentSchema from '../src/shared/db/schemas.js/agent.schema.js';
@@ -41,7 +41,7 @@ const agentcreate = async (req, res) => {
   const agents = async (req, res) => {
   try {
     //datafile alone wasn't enough to make app.js run this function, I needed the ".Jsagents" portion
-  const lastnames = datafile.jsagents
+  const lastnames = jsagents.jsagents
   .sort((a, b) => a.last_name.localeCompare(b.last_name))
   //"agent" here serves as a placeholder to interact with the specific object
   .map(agent => agent.last_name);
@@ -71,7 +71,7 @@ const agentsbyregion = (req, res) => {
     }
 
     // Filter agents by region
-    let filteredAgents = datafile.jsagents.filter(
+    let filteredAgents = jsagents.jsagents.filter(
       agent => agent.region.toLowerCase() === region.toLowerCase()
     );
 
@@ -95,7 +95,7 @@ const agentsbyregion = (req, res) => {
       const { email, first_name, last_name, region } = req.body;
   
       // Find the agent by unique identifier (email)
-      const agent = datafile.jsagents.find(a => a.email === email);
+      const agent = jsagents.jsagents.find(a => a.email === email);
   
       if (!agent) {
         return res.status(404).json({ message: "Agent not found" });
