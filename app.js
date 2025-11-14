@@ -2,7 +2,7 @@
 // import AgentSchema from "./agent.schema.js"
 //Region Scheme Import
 // import RegionSchema from "./region.schema.js"
-import datafile from "./agents.js"
+import datafile from "./src/shared/agents.js"
 import dotenv from 'dotenv'
 //FS functionality
 import fs from 'fs';
@@ -80,9 +80,9 @@ const RouteCaller = (app) => {
 // app.get("/agents",agents)
 
 //NEW AGENT ROUTES
-import AgentRouteEndPoints from './Routes/AgentRoutes.js'
+import AgentRouteEndPoints from './src/Routes/AgentRoutes.js'
 //NEW REGION ROUTES
-import RegionRouteEndPoints from './Routes/RegionRoutes.js'
+import RegionRouteEndPoints from './src/Routes/RegionRoutes.js'
 // AgentRouteEndPoints, will need to change for these imports later
 
 //MIDDLEWARE ROUTE FOR AUTHENTICATION - NOT NECESSARY DUE TO TIES TO REGION ROUTES

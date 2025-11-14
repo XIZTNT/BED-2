@@ -5,7 +5,7 @@ import 'fs';
 import 'path';
 
 // Data we are interacting with
-import datafile from '../agents.js'
+import {jsagents} from '../src/shared/agents.js'
 
 //Model we are interacting with in Mongo
 import AgentSchema from '../src/shared/db/schemas.js/agent.schema.js';
@@ -35,6 +35,8 @@ const agentcreate = async (req, res) => {
   // });
 //COMMENTED OUT DUE TO ES6 CHANGE
 
+
+//GET AGENTS ENDPOINT
   //checjk if im geting through emit
   const agents = async (req, res) => {
   try {

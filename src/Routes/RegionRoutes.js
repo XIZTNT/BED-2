@@ -1,10 +1,10 @@
 import express from 'express';
 //my model OR IMPORT AGENTS.JS
-import '../src/shared/db/schemas.js/region.schema.js'
+import '../shared/db/schemas.js/region.schema.js'
 // const AgentSchema = require('./agent.schema'); -- NOT SURE IF NEEDED AT THIS POINT
 const router = express.Router();
 import RegionsController from '../Controllers/RegionsController.mjs'
-import baseMiddleware from '../src/shared/middleware/baseMiddleware.js'
+import baseMiddleware from '../shared/middleware/baseMiddleware.js'
 
 
 //REGION ROUTES
