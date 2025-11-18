@@ -4,11 +4,8 @@
 import 'fs';
 import 'path';
 
-// Data we are interacting with
-import jsagents from '../src/shared/agents.js'
-
 //Model we are interacting with in Mongo
-import AgentSchema from '../src/shared/db/schemas.js/agent.schema.js';
+import AgentSchema from '../shared/db/schemas.js/agent.schema.js'
 
 //AGENT CREATE FUNCTION
 
@@ -39,20 +36,23 @@ const agentcreate = async (req, res) => {
 //GET AGENTS ENDPOINT
   //checjk if im geting through emit
   const agents = async (req, res) => {
-  try {
-    //datafile alone wasn't enough to make app.js run this function, I needed the ".Jsagents" portion
-  const lastnames = jsagents.jsagents
-  .sort((a, b) => a.last_name.localeCompare(b.last_name))
-  //"agent" here serves as a placeholder to interact with the specific object
-  .map(agent => agent.last_name);
+    try {
+      const sortedAgents = await AgentSchema.find()
+        .sort({ last_name: 1 }); // 1 = ASC (A → Z)
   
-  res.status(201).json({ message: "Sorted lastnames completed", data: lastnames });
+      res.status(200).json({
+        message: "Agents sorted by last name",
+        data: sortedAgents
+      });
   
-  } catch (error) {
-    console.error("Error organizing last names:",error.message);
-    res.status(404).json({ message:"Failed to organize last names sort", error: error.message });
-  }
-  };
+    } catch (error) {
+      console.error("Error sorting agents:", error);
+      res.status(500).json({
+        message: "Failed to sort agents",
+        error: error.message
+      });
+    }
+  };  
   
   //AGENTS BY REGION FUNCTION
   
@@ -61,83 +61,101 @@ const agentcreate = async (req, res) => {
 //EXAMPLE URL: http://localhost:3000/agent/agents-by-region?region=north
 // Sorted by rating (highest to lowest)
 // -----------------------------
-const agentsbyregion = (req, res) => {
+const agentsbyregion = async (req, res) => {
   try {
     const region = req.query.region;
 
-    // Enforce required query param
     if (!region) {
-      return res.status(400).json({ message: "Query parameter 'region' is required" });
+      return res.status(400).json({
+        message: "Query parameter 'region' is required"
+      });
     }
 
-    // Filter agents by region
-    let filteredAgents = jsagents.jsagents.filter(
-      agent => agent.region.toLowerCase() === region.toLowerCase()
-    );
-
-    // Sort by rating (descending)
-    filteredAgents.sort((a, b) => Number(b.rating) - Number(a.rating));
+    // MongoDB query
+    const filteredAgents = await AgentSchema.find({
+      region: region.toLowerCase()
+    }).sort({ rating: -1 }); // highest → lowest
 
     res.status(200).json({
       message: `Agents in region '${region}' sorted by rating`,
       data: filteredAgents
     });
+
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Failed to fetch agents by region", error: error.message });
+    console.error("Error fetching agents by region:", error);
+    res.status(500).json({
+      message: "Failed to fetch agents by region",
+      error: error.message
+    });
   }
 };
-
   
   //Agent Update Info FUNCTION
-  const agentupdateinfo = (req, res) => {
+  const agentupdateinfo = async (req, res) => {
     try {
-      const { email, first_name, last_name, region } = req.body;
+      const { email } = req.body;
   
-      // Find the agent by unique identifier (email)
-      const agent = jsagents.jsagents.find(a => a.email === email);
-  
-      if (!agent) {
-        return res.status(404).json({ message: "Agent not found" });
+      if (!email) {
+        return res.status(400).json({ message: "Email is required to identify the agent" });
       }
   
-      // Only update allowed fields
-      if (first_name) agent.first_name = first_name;
-      if (last_name) agent.last_name = last_name;
-      if (region) agent.region = region;
+      // Whitelist of fields allowed to be updated
+      const allowedUpdates = ['first_name', 'last_name', 'email', 'region'];
+      const updates = {};
   
-      res.status(200).json({
-        message: "Agent updated successfully",
-        data: {
-          first_name: agent.first_name,
-          last_name: agent.last_name,
-          email: agent.email,
-          region: agent.region
+      // Collect only the allowed fields from the request body
+      allowedUpdates.forEach(field => {
+        if (req.body[field] !== undefined) {
+          updates[field] = req.body[field];
+          if (field === 'region') updates[field] = req.body[field].toLowerCase(); // normalize region
         }
       });
   
+      if (Object.keys(updates).length === 0) {
+        return res.status(400).json({ message: "No valid fields provided for update" });
+      }
+  
+      // Attempt to find and update the agent
+      const updatedAgent = await AgentSchema.findOneAndUpdate(
+        { email },      // search by existing email
+        updates,
+        { new: true }   // return the updated document
+      );
+  
+      if (!updatedAgent) {
+        return res.status(404).json({ message: "Agent not found. Cannot update non-existent agent." });
+      }
+  
+      res.status(200).json({
+        message: "Agent updated successfully",
+        data: updatedAgent
+      });
+  
     } catch (error) {
-      console.error("Error updating agent info:", error.message);
-      res.status(500).json({ message: "Failed to update agent info", error: error.message });
+      console.error("Error updating agent:", error);
+      res.status(500).json({
+        message: "Failed to update agent",
+        error: error.message
+      });
     }
   };
   
+  
   // AGENT DELETE FUNCTION
-  const agentdelete = (req, res) => {
+  const agentdelete = async (req, res) => {
     try {
-      const { email } = req.body;  // Only need email for deletion
+      const { email } = req.body;
   
       if (!email) {
         return res.status(400).json({ message: "Email is required to delete an agent" });
       }
   
-      const index = datafile.jsagents.findIndex(agent => agent.email === email);
+      // Attempt to find and delete the agent by email
+      const deletedAgent = await AgentSchema.findOneAndDelete({ email });
   
-      if (index === -1) {
-        return res.status(404).json({ message: "Agent not found" });
+      if (!deletedAgent) {
+        return res.status(404).json({ message: "Agent not found. Cannot delete non-existent agent." });
       }
-  
-      const deletedAgent = datafile.jsagents.splice(index, 1)[0];
   
       res.status(200).json({
         message: "Agent deleted successfully",
@@ -150,7 +168,7 @@ const agentsbyregion = (req, res) => {
       });
   
     } catch (error) {
-      console.error("Error deleting agent:", error.message);
+      console.error("Error deleting agent:", error);
       res.status(500).json({ message: "Failed to delete agent", error: error.message });
     }
   };

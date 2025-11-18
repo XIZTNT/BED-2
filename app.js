@@ -2,10 +2,12 @@
 // import AgentSchema from "./agent.schema.js"
 //Region Scheme Import
 // import RegionSchema from "./region.schema.js"
-import jsagents from '../src/shared/agents.js'
+import AgentRouteEndPoints from './src/Routes/AgentRoutes.js'
+import RegionRouteEndPoints from './src/Routes/RegionRoutes.js'
+
 import dotenv from 'dotenv'
 //FS functionality
-import fs from 'fs';
+// import fs from 'fs';
 // import path from 'path';
 dotenv.config()
 //Express Middleware
@@ -16,9 +18,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true })); 
 // app.use(bodyParser.json()), no need to use
 const port = process.env.PORT || 5050
-const env = process.env.ENV || ""
 //MIDDLEWARE IMPORT FOR AUTHENTICATION ON ROCKET ELEVATORS ROUTES
-import baseMiddleware from './src/shared/middleware/baseMiddleware.js'
+// import baseMiddleware from './src/shared/middleware/baseMiddleware.js'
 
 //Mongo Manager Open Connection
 import { openMongoConnection } from './src/shared/db/mongo-manager.js';
@@ -28,63 +29,12 @@ app.listen(port, () => {
   console.log(` server listening on port ${port} `)
 })
 
-//BED-1 ROUTES:
-
-//Hello Route
-const hello = (req,res) => {
-console.log(`server running on port ${port}`)
-res.send("Hello World")
-}
-//Status Route
-const status = (req,res) => {
-console.log(`server running on port ${port}`)
-res.send(`server running on port ${port} and in the ${env} environment`)
-}
-//Error Route
-const error = (req,res) => {
-const StatusCode = 404
-res.status(StatusCode).send(`Sorry agent not found ${StatusCode}`)
-}
-//Email List Route
-const getEmailList = (req,res) => {
-let email = jsagents.jsagents.map(list => list.email).join(",")
-res.send(email);
-}
-//Contact US Endpoint
-const contactus = async (req,res) => {
-//asyn to wait so it can fulfill apromise
-const first_name = req.body.first_name
-const last_name = req.body.last_name
-const message = req.body.message
-res.send(`Thank you for contacting us ${first_name}${last_name}, we will contact you shortly!`)
-console.log(message);
-}
-
-//Route Calling Function
-
-//
-//if the routers are are separated into 
-const RouteCaller = (app) => {
-  app.get("/hello",hello)
-  app.get("/status",status)
-  app.get("/error",error)
-  //These Routes require authentication
-  app.get("/email-list",baseMiddleware,getEmailList)
-  app.post("/contact-us",baseMiddleware,contactus) 
-  //BED 2 Section Endpoints, NOW IN "AgentController" and "RegionsController"
-  }
-  RouteCaller(app)
-
 //BED 2 Region Section Endpoints
 
 // app.get("/agents",agents)
 
-//NEW AGENT ROUTES
-import AgentRouteEndPoints from './src/Routes/AgentRoutes.js'
-//NEW REGION ROUTES
-import RegionRouteEndPoints from './src/Routes/RegionRoutes.js'
-// AgentRouteEndPoints, will need to change for these imports later
 
+// AgentRouteEndPoints, will need to change for these imports later
 //MIDDLEWARE ROUTE FOR AUTHENTICATION - NOT NECESSARY DUE TO TIES TO REGION ROUTES
 // import authMiddleware from './shared/middleware/baseMiddleware.js';
 //const RoutesforRegion = require ('./RegionRoutes')
