@@ -2,7 +2,7 @@
 // import AgentSchema from "./agent.schema.js"
 //Region Scheme Import
 // import RegionSchema from "./region.schema.js"
-import datafile from "./agents.js"
+import jsagents from '../src/shared/agents.js'
 import dotenv from 'dotenv'
 //FS functionality
 import fs from 'fs';
@@ -47,7 +47,7 @@ res.status(StatusCode).send(`Sorry agent not found ${StatusCode}`)
 }
 //Email List Route
 const getEmailList = (req,res) => {
-let email = datafile.jsagents.map(list => list.email).join(",")
+let email = jsagents.jsagents.map(list => list.email).join(",")
 res.send(email);
 }
 //Contact US Endpoint
