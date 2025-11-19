@@ -71,10 +71,10 @@ const agentsbyregion = async (req, res) => {
       });
     }
 
-    // MongoDB query
+    // Case-insensitive region query using RegExp
     const filteredAgents = await AgentSchema.find({
-      region: region.toLowerCase()
-    }).sort({ rating: -1 }); // highest → lowest
+      region: new RegExp(`^${region}$`, "i")   // ← MATCHES (with RegExp) 'East', 'east', 'EAST', etc.
+    }).sort({ rating: -1 });
 
     res.status(200).json({
       message: `Agents in region '${region}' sorted by rating`,
@@ -89,25 +89,24 @@ const agentsbyregion = async (req, res) => {
     });
   }
 };
+
   
   //Agent Update Info FUNCTION
   const agentupdateinfo = async (req, res) => {
     try {
-      const { email } = req.body;
+      const { current_email } = req.body;
   
-      if (!email) {
-        return res.status(400).json({ message: "Email is required to identify the agent" });
+      if (!current_email) {
+        return res.status(400).json({ message: "Current email is required to identify the agent" });
       }
   
       // Whitelist of fields allowed to be updated
       const allowedUpdates = ['first_name', 'last_name', 'email', 'region'];
       const updates = {};
   
-      // Collect only the allowed fields from the request body
       allowedUpdates.forEach(field => {
-        if (req.body[field] !== undefined) {
+        if (req.body[field] !== undefined && field !== 'current_email') {
           updates[field] = req.body[field];
-          if (field === 'region') updates[field] = req.body[field].toLowerCase(); // normalize region
         }
       });
   
@@ -115,11 +114,11 @@ const agentsbyregion = async (req, res) => {
         return res.status(400).json({ message: "No valid fields provided for update" });
       }
   
-      // Attempt to find and update the agent
+      // Case-insensitive find by current_email
       const updatedAgent = await AgentSchema.findOneAndUpdate(
-        { email },      // search by existing email
+        { email: new RegExp(`^${current_email}$`, "i") },
         updates,
-        { new: true }   // return the updated document
+        { new: true }
       );
   
       if (!updatedAgent) {
@@ -141,6 +140,7 @@ const agentsbyregion = async (req, res) => {
   };
   
   
+  
   // AGENT DELETE FUNCTION
   const agentdelete = async (req, res) => {
     try {
@@ -150,8 +150,10 @@ const agentsbyregion = async (req, res) => {
         return res.status(400).json({ message: "Email is required to delete an agent" });
       }
   
-      // Attempt to find and delete the agent by email
-      const deletedAgent = await AgentSchema.findOneAndDelete({ email });
+      // Case-insensitive find and delete
+      const deletedAgent = await AgentSchema.findOneAndDelete({
+        email: new RegExp(`^${email}$`, "i")
+      });
   
       if (!deletedAgent) {
         return res.status(404).json({ message: "Agent not found. Cannot delete non-existent agent." });
