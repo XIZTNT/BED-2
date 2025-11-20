@@ -1,17 +1,4 @@
-// HAD ISSUES WITH MULTIPLE TERMINALS OPEN
-//Express Middlware
-// const express = require('express');
-// const app = express();
-// app.use(express.json());
-// //Added in to make sure parsing is a non-issue with Postman Requests
-// // app.use(bodyParser.json()), no need to use
-// const port = process.env.PORT || 5050
-// const env = process.env.ENV || ""
-//Mongo Manager
-// import { openMongoConnection } from "../shared/db/mongo-manager.js"
-
-//when working with the region schema, ONLY WORK WITH "REGION" requirements
-//new function for agent create route, the schema is working with mongodb
+//When working with the region schema, ONLY WORK WITH "REGION" requirements
 import RegionSchema from '../shared/db/schemas.js/region.schema.js'
 
 //when working with the agent schema, ONLY WORK WITH "AGENT" requirements
@@ -20,16 +7,10 @@ import RegionSchema from '../shared/db/schemas.js/region.schema.js'
 import AgentSchema from '../shared/db/schemas.js/region.schema.js'
 
 
-//Adding RegionAPIData as a new collection to our existing Mongo DB ???
-// const collection = MongoDBFile.collection(RegionAPIData);
-
-//Change data to req.body and on the left hand side change the nature of the variable,
-//essentially = //const {}, and the items that make up the region
-
-
-//REGION CREATE ITEMS API
-
+//REGION CREATE FUNCTION
     const regioncreate = async (req, res) => {
+      //Change data to req.body and on the left hand side change the nature of the variable,
+      //essentially = //const {}, and the items that make up the region
       const { manager, region, address } = req.body;
     
       try {
@@ -80,8 +61,8 @@ import AgentSchema from '../shared/db/schemas.js/region.schema.js'
       }
     };
     
-//GET REGION API
 
+//GET REGION FUNCTION
 const getregion = async (req, res) => {
   // grabs query params
 // If you call /api/getregion?region=North, req.query.region will be "North".
@@ -107,10 +88,7 @@ const getregion = async (req, res) => {
   }
 };
 
-/**
- * GET /api/all-stars
- * Returns the top-selling agent in each region
- */
+//GET ALLSTARS FUNCTION
 const allstars = async (req, res) => {
   try {
     const regions = ['North', 'South', 'East', 'West'];
@@ -141,25 +119,7 @@ const allstars = async (req, res) => {
   }
 };
 
-
 //EXPORT TO ROUTES
 //"EXPORT" only will not work for these, you must use export default,
 //otherwise you run into the error: "SyntaxError: The requested module './RegionsController.mjs' does not provide an export named 'default' "
 export default { regioncreate, getregion, allstars};
-
-//Thoughts: What I may need to do is, import and require agents JS
-// then name my "db = agent const for import"
-
-//async function main() {
-//probably need to connect o mongo somehow
-
-//try catch here? {
-//const db = ...add mongo database and name it here?
-//add a new collection to the mongodatabase after being connected to it with const collection = db.collection('agents');
-
-//await collection.insertMany(region:({North, East, West, South}))????
-
-// } catch (err) {
-//console.error("Error occured:', err));
-
-//}????

@@ -1,14 +1,7 @@
-
-
-//FS functionality
-import 'fs';
-import 'path';
-
 //Model we are interacting with in Mongo
 import AgentSchema from '../shared/db/schemas.js/agent.schema.js'
 
 //AGENT CREATE FUNCTION
-
 const agentcreate = async (req, res) => {
 
     try {
@@ -22,19 +15,7 @@ const agentcreate = async (req, res) => {
     }
   };
   
-  //AGENTS SORT BY LAST NAME FUNCTION 
-
-  //Return all agents by last name alphabetically ENDPOINT
-  //Will want to stick with sort function in order to compare values that come before or after
-  //read datafile as a datafile (use or lookup "fs" read file)
-  // fs.readFile("agents.js","utf8", (err,content) => {
-  //   console.log(content);
-  // });
-//COMMENTED OUT DUE TO ES6 CHANGE
-
-
-//GET AGENTS ENDPOINT
-  //checjk if im geting through emit
+  //GET AGENTS FUNCTION
   const agents = async (req, res) => {
     try {
       const sortedAgents = await AgentSchema.find()
@@ -55,12 +36,6 @@ const agentcreate = async (req, res) => {
   };  
   
   //AGENTS BY REGION FUNCTION
-  
-  // -----------------------------
-// Get agents by region (required query parameter 'region')
-//EXAMPLE URL: http://localhost:3000/agent/agents-by-region?region=north
-// Sorted by rating (highest to lowest)
-// -----------------------------
 const agentsbyregion = async (req, res) => {
   try {
     const region = req.query.region;
@@ -89,7 +64,6 @@ const agentsbyregion = async (req, res) => {
     });
   }
 };
-
   
   //Agent Update Info FUNCTION
   const agentupdateinfo = async (req, res) => {
@@ -140,7 +114,6 @@ const agentsbyregion = async (req, res) => {
   };
   
   
-  
   // AGENT DELETE FUNCTION
   const agentdelete = async (req, res) => {
     try {
@@ -176,8 +149,6 @@ const agentsbyregion = async (req, res) => {
   };
   
 
-
-
   //CHATGPT says agent delete "technically" doesn't delete anything from the array data
 
   
@@ -185,3 +156,18 @@ const agentsbyregion = async (req, res) => {
   //EXPORTING SO THAT CONTROLLER FUNCTIONS CAN BE USED IN ROUTES
 
   export default { agentcreate, agents, agentsbyregion, agentupdateinfo, agentdelete};
+
+
+  //Other Notes:
+
+  //ES6 CHANGE results in below being commented out for future ref:
+  //Return all agents by last name alphabetically ENDPOINT for Agents sort by last name function
+  //Will want to stick with sort function in order to compare values that come before or after
+  //read datafile as a datafile (use or lookup "fs" read file)
+  // fs.readFile("agents.js","utf8", (err,content) => {
+  //   console.log(content);
+  // });
+
+//FS functionality, originally needed for static js file
+// import 'fs';
+// import 'path';

@@ -2,13 +2,10 @@
 // import AgentSchema from "./agent.schema.js"
 //Region Scheme Import
 // import RegionSchema from "./region.schema.js"
-import AgentRouteEndPoints from './src/Routes/AgentRoutes.js'
-import RegionRouteEndPoints from './src/Routes/RegionRoutes.js'
+import AgentRouteEndPoints from './src/routes/AgentRoutes.js'
+import RegionRouteEndPoints from './src/routes/RegionRoutes.js'
 
 import dotenv from 'dotenv'
-//FS functionality
-// import fs from 'fs';
-// import path from 'path';
 dotenv.config()
 //Express Middleware
 import express from 'express';
@@ -18,8 +15,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true })); 
 // app.use(bodyParser.json()), no need to use
 const port = process.env.PORT || 5050
-//MIDDLEWARE IMPORT FOR AUTHENTICATION ON ROCKET ELEVATORS ROUTES
-// import baseMiddleware from './src/shared/middleware/baseMiddleware.js'
 
 //Mongo Manager Open Connection
 import { openMongoConnection } from './src/shared/db/mongo-manager.js';
@@ -29,22 +24,14 @@ app.listen(port, () => {
   console.log(` server listening on port ${port} `)
 })
 
-//BED 2 Region Section Endpoints
-
-// app.get("/agents",agents)
-
-
-// AgentRouteEndPoints, will need to change for these imports later
-//MIDDLEWARE ROUTE FOR AUTHENTICATION - NOT NECESSARY DUE TO TIES TO REGION ROUTES
-// import authMiddleware from './shared/middleware/baseMiddleware.js';
-//const RoutesforRegion = require ('./RegionRoutes')
-//NEW "get" USAGE for postman
-//This tells me that I'm using my routes that is connected to the controller file, 
-//while using the specific route, in this case agent create, within the "AgentRoutes file"
-//AGENT CALLBACK ROUTES FOR POSTMAN
+//AGENT AND REGION ENDPOINT CALLS
 app.use("/agent", AgentRouteEndPoints);
 //
 app.use("/region", RegionRouteEndPoints);
+
+
+
+
 
 
 //Comments/NOTES
@@ -73,48 +60,11 @@ app.use("/region", RegionRouteEndPoints);
 //You should use the "jsagents" for this section
 
 
-//agents.json included in FSD folder
-
-//for email list^ (the list is structured as an Array of Objects)
-//Look up .map and also .join (two methods to get the email list and deliniate, an email list separated by commas)
-
-
-// // My AgentCreate Route:
-
-// const agentcreate = async(req, res) => {
-//     // Create the agent using data from the request body
-    
-//     const agent = await AgentSchema.create(req.body);
-    
-// if (agent) {
-//     // Log and respond with the created agent
-//     console.log('Agent created:', agent);
-//     res.status(201).json({ message: "Agent created successfully", data: agent });
-// } else if (!agent){
-
-//     console.error('Agent creation failed', error);
-//     res.status(404).send({ message: "Agent creation failed", error: message });
-// }
-// }
-//   agentcreate();
-
-  
-//Next agents requirement
-  // async function agents(req, res) {
-  //   try {
-  //     // Query all agents and sort them by 'last_name' alphabetically
-  //     const agents = await AgentSchema.find().sort({ last_name: 1 }); // 1 for ascending order
-  
-  //     // Respond with the list of agents
-  //     res.status(200).json({ message: "Agents retrieved successfully", data: agents });
-  //   } catch (error) {
-  //     console.error('Failed to retrieve agents', error);
-  //     res.status(500).json({ message: "Failed to retrieve agents", error: error.message });
-  //   }
-  // }
-  // agents();
-
-
-//"Confirmations" will be status error codes 
-
-
+// AgentRouteEndPoints, will need to change for these imports later
+//MIDDLEWARE ROUTE FOR AUTHENTICATION - NOT NECESSARY DUE TO TIES TO REGION ROUTES
+// import authMiddleware from './shared/middleware/baseMiddleware.js';
+//const RoutesforRegion = require ('./RegionRoutes')
+//NEW "get" USAGE for postman
+//This tells me that I'm using my routes that is connected to the controller file, 
+//while using the specific route, in this case agent create, within the "AgentRoutes file"
+//AGENT CALLBACK ROUTES FOR POSTMAN

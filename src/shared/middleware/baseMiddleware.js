@@ -33,18 +33,4 @@ const authMiddleware = (req, res, next) => {
 
 // Export middleware
 export default authMiddleware;
-
-
-//Shorter Version, technically less "robust"
-
-// const authMiddleware = (req, res, next) => {
-//     const token = req.headers['authorization'];
-//     const ACCESS_TOKEN = 'my-hardcoded-token';
-  
-//     if (token === ACCESS_TOKEN) {
-//       next(); // ✅ token is valid
-//     } else {
-//       res.status(403).json({ message: 'Access Forbidden' }); // ❌ block
-//     }
-//   };
   
