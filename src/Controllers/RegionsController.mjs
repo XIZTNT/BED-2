@@ -35,8 +35,7 @@ import AgentSchema from '../shared/db/schemas.js/region.schema.js'
         const newRegion = await RegionSchema.create({
           region: region,
           address: address,
-          manager: newManager._id, //this is an ID because the is what the schema reflects
-          // manager: newManager._id, I don't need because this will be created by the AgentSchema
+          manager: newManager._id, //this is an ID because the manager has been created to be referenced
         });
     
         // Access newRegion here

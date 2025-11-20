@@ -1,6 +1,5 @@
 import express from 'express';
-//import schema to work with MongoDB collection
-import '../shared/db/schemas.js/region.schema.js'
+
 const router = express.Router();
 //IMPORT REGIONCONTROLLER
 import RegionsController from '../controllers/RegionsController.mjs'
