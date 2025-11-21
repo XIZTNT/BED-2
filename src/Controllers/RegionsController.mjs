@@ -4,7 +4,7 @@ import RegionSchema from '../shared/db/schemas.js/region.schema.js'
 //when working with the agent schema, ONLY WORK WITH "AGENT" requirements
 //Agent Schema import to reference AGENT related requirements
 //THIS WILL BE USED WITH MANAGERS
-import AgentSchema from '../shared/db/schemas.js/region.schema.js'
+import AgentSchema from '../shared/db/schemas.js/agent.schema.js'
 
 
 //REGION CREATE FUNCTION
@@ -117,6 +117,7 @@ const allstars = async (req, res) => {
     res.status(500).json({ message: 'Failed to fetch all-stars', error: error.message });
   }
 };
+
 
 //EXPORT TO ROUTES
 //"EXPORT" only will not work for these, you must use export default,
