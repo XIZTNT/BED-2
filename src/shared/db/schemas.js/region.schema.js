@@ -1,17 +1,6 @@
-//iimport mongoose at the top
-//add a const
-//add a scheme (an agent schema which will create a new)
-//title string, atuhor string, last name, (everythjing on dochebo)
-//after buld upon thstructure, not necesarrily a string or number
-//look at syntax
-//agent.create 
-
-
 // ES Module Syntax
-// import mongoose from 'mongoose';
- 
-// Common JS
-//in ES6, use this line to add mongoose w/ schema
+// import mongoose from 'mongoose'; 
+
 import mongoose from 'mongoose';
 
 const NewRegionSchema = new mongoose.Schema({
@@ -63,3 +52,13 @@ export default RegionSchema;
 
 //OLD LINE (ES Modules) used for expport into app.js
 //export default mongoose.model("Agent",AgentSchema)
+
+
+//OTHER NOTES:
+//import mongoose at the top
+//add a const
+//add a schema (an agent schema which will create a new)
+//title string, atuhor string, last name, (everythjing on dochebo)
+//after buld upon thstructure, not necesarrily a string or number
+//look at syntax
+//agent.create 

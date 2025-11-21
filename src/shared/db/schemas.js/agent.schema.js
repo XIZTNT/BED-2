@@ -1,15 +1,3 @@
-//iimport mongoose at the top
-//add a const
-//add a scheme (an agent schema which will create a new)
-//title string, atuhor string, last name, (everythjing on dochebo)
-//after buld upon thstructure, not necesarrily a string or number
-//look at syntax
-//agent.create 
-
-
-// ES Module Syntax
-// import mongoose from 'mongoose';
-
 // Common JS CHANGED TO ES6
 //this is how in ES6, you get mongoose to work
 import mongoose from 'mongoose';
@@ -69,3 +57,13 @@ export default AgentSchema;
 
 //OLD LINE (ES Modules) used for expport into app.js
 //export default mongoose.model("Agent",AgentSchema)
+
+//OTHER NOTES:
+
+//iimport mongoose at the top
+//add a const
+//add a scheme (an agent schema which will create a new)
+//title string, atuhor string, last name, (everythjing on dochebo)
+//after buld upon thstructure, not necesarrily a string or number
+//look at syntax
+//agent.create 
