@@ -3,15 +3,16 @@ import express from 'express';
 const router = express.Router();
 //IMPORT REGIONCONTROLLER
 import RegionsController from '../controllers/RegionsController.mjs'
-import baseMiddleware from '../shared/middleware/baseMiddleware.js'
+// import baseMiddleware from '../shared/middleware/baseMiddleware.js' this is now changed to what line 7 contains
+import { authMiddleware, authenticate } from '../shared/middleware/baseMiddleware';
 
 
 //REGION ROUTES
 //"baseMiddleware added for authentication purposes
 
-router.post("/region-create",baseMiddleware,RegionsController.regioncreate);
+router.post("/region-create",authMiddleware,RegionsController.regioncreate);
 
-router.get("/getregion",baseMiddleware,RegionsController.getregion);
+router.get("/getregion",authMiddleware,RegionsController.getregion);
 
 router.get("/all-stars",RegionsController.allstars);
 

@@ -4,6 +4,7 @@
 // import RegionSchema from "./region.schema.js"
 import AgentRouteEndPoints from './src/routes/AgentRoutes.js'
 import RegionRouteEndPoints from './src/routes/RegionRoutes.js'
+// import JWTRouteEndPoints from './src/routes/JWTRoute.js' //use similiar to authmiddleware
 
 import dotenv from 'dotenv'
 dotenv.config()
@@ -24,10 +25,12 @@ app.listen(port, () => {
   console.log(` server listening on port ${port} `)
 })
 
-//AGENT AND REGION ENDPOINT CALLS
+//AGENT, REGION, AND JWT ENDPOINT CALLS
 app.use("/agent", AgentRouteEndPoints);
 //
 app.use("/region", RegionRouteEndPoints);
+//
+// app.use("/",JWTRouteEndPoints)
 
 
 

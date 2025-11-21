@@ -77,7 +77,7 @@ const agentsbyregion = async (req, res) => {
       // Whitelist of fields allowed to be updated
       const allowedUpdates = ['first_name', 'last_name', 'email', 'region'];
       const updates = {};
-  
+  //req.body field that allows you have a "unique" identifier that can respect all other changes
       allowedUpdates.forEach(field => {
         if (req.body[field] !== undefined && field !== 'current_email') {
           updates[field] = req.body[field];
