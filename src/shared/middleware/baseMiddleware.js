@@ -5,7 +5,7 @@
 const ACCESS_TOKEN = "AccessGranted24"; // <-- you can change this to anything
 
 // Middleware function
-const authMiddleware = (req, res, next) => {
+export const authMiddleware = (req, res, next) => {
   try {
     // Get token from Authorization header, can be an array if multiple values are necessary
     const authHeader = req.header('authorization');
@@ -54,6 +54,7 @@ export const authenticate = (req, res, next) => {
 };
 
 
-// Export middleware
-export default authMiddleware;
+// // Export middleware
+// export default authMiddleware;
+// This was used before the addition of the JWT authenticate
   

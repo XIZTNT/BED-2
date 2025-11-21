@@ -4,7 +4,7 @@ const router = express.Router();
 //IMPORT REGIONCONTROLLER
 import RegionsController from '../controllers/RegionsController.mjs'
 // import baseMiddleware from '../shared/middleware/baseMiddleware.js' this is now changed to what line 7 contains
-import { authMiddleware, authenticate } from '../shared/middleware/baseMiddleware';
+import { authMiddleware, authenticate } from '../shared/middleware/baseMiddleware.js';
 
 
 //REGION ROUTES
