@@ -1,10 +1,6 @@
-//How to access agents.js within app.js? (line 1)
-// import AgentSchema from "./agent.schema.js"
-//Region Scheme Import
-// import RegionSchema from "./region.schema.js"
 import AgentRouteEndPoints from './src/routes/AgentRoutes.js'
 import RegionRouteEndPoints from './src/routes/RegionRoutes.js'
-// import JWTRouteEndPoints from './src/routes/JWTRoute.js' //use similiar to authmiddleware
+import AuthenticationRoutes from './src/routes/AuthenticationRoutes.js'
 
 import dotenv from 'dotenv'
 dotenv.config()
@@ -31,6 +27,7 @@ app.use("/agent", AgentRouteEndPoints);
 app.use("/region", RegionRouteEndPoints);
 //
 // app.use("/",JWTRouteEndPoints)
+app.use('/auth', AuthenticationRoutes)
 
 
 

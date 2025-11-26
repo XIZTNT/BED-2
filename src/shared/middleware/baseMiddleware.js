@@ -33,25 +33,35 @@ export const authMiddleware = (req, res, next) => {
 
 //JWT WEBTOKEN AUTHENTICATION
 // middleware/authMiddleware.js
+// middleware/authMiddleware.js
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 dotenv.config();
 
 export const authenticate = (req, res, next) => {
-  const authHeader = req.headers.authorization;
-  if (!authHeader) return res.status(401).json({ error: "No token provided" });
+  // Use your custom header
+  const jwtheader = req.header('JWT-Authorization');
 
-  const token = authHeader.split(' ')[1]; // Bearer TOKEN
-  if (!token) return res.status(401).json({ error: "Invalid token format" });
+  if (!jwtheader) {
+    return res.status(401).json({ error: "No token provided" });
+  }
+
+  // Expected format: "Bearer <token>"
+  const token = jwtheader.split(" ")[1];
+
+  if (!token) {
+    return res.status(401).json({ error: "Invalid token format" });
+  }
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded; // attach payload to request
+    req.user = decoded;
     next();
   } catch (err) {
     return res.status(401).json({ error: "Invalid or expired token" });
   }
 };
+
 
 
 // // Export middleware
