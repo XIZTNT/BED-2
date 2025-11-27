@@ -21,4 +21,3 @@ router.get("/all-stars",authenticate,RegionsController.allstars);
 //NECESSAY TO IMPORT WITHIN APPJS SO THESE FILES CAN COMMUNICATE IN MVC FORMAT
 
 export default router;
-

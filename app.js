@@ -1,6 +1,8 @@
 import AgentRouteEndPoints from './src/routes/AgentRoutes.js'
 import RegionRouteEndPoints from './src/routes/RegionRoutes.js'
 import AuthenticationRoutes from './src/routes/AuthenticationRoutes.js'
+//Postman can read "cookies"
+import cookieParser from "cookie-parser";
 
 import dotenv from 'dotenv'
 dotenv.config()
@@ -21,6 +23,7 @@ app.listen(port, () => {
   console.log(` server listening on port ${port} `)
 })
 
+app.use(cookieParser()); //allows JWT to function BEFORE ROUTES, and note the parentheses
 //AGENT, REGION, AND JWT ENDPOINT CALLS
 app.use("/agent", AgentRouteEndPoints);
 //
