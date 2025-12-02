@@ -118,8 +118,56 @@ const allstars = async (req, res) => {
   }
 };
 
+// TEMPORARY REGION REFRESH FUNCTION — SAFE TO DELETE AFTER USE
+const refreshregions = async (req, res) => {
+  try {
+    const regions = ['North', 'South', 'East', 'West'];
+    const results = [];
+
+    for (const r of regions) {
+
+      const regionDoc = await RegionSchema.findOne({ region: r });
+      if (!regionDoc) {
+        results.push({ region: r, status: "Region not found, skipped" });
+        continue;
+      }
+
+      // Get all agents belonging to that region
+      const agents = await AgentSchema.find({ region: r });
+
+      // Recalculate totals
+      const totalSales = agents.reduce((sum, agent) => sum + agent.sales, 0);
+      const topAgents = agents
+        .sort((a, b) => b.sales - a.sales)
+        .slice(0, 3)
+        .map(a => a._id);
+
+      // Update the region doc
+      regionDoc.total_sales = totalSales;
+      regionDoc.top_agents = topAgents;
+
+      await regionDoc.save();
+
+      results.push({
+        region: r,
+        updated_total_sales: totalSales,
+        updated_top_agents: topAgents,
+        agent_count: agents.length
+      });
+    }
+
+    res.status(200).json({
+      message: "Regions refreshed successfully",
+      results
+    });
+
+  } catch (error) {
+    console.error("Failed to refresh regions", error);
+    res.status(500).json({ message: "Failed to refresh regions", error: error.message });
+  }
+};
 
 //EXPORT TO ROUTES
 //"EXPORT" only will not work for these, you must use export default,
 //otherwise you run into the error: "SyntaxError: The requested module './RegionsController.mjs' does not provide an export named 'default' "
-export default { regioncreate, getregion, allstars};
+export default { regioncreate, getregion, allstars, refreshregions};
